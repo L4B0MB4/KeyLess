@@ -4,8 +4,7 @@ import serial
 import Protocol
 
 ser = serial.Serial("/dev/ttyAMA0",9600)
-sio = io.TextIOWrapper(io.BufferedRWPair(ser, ser))
-protocol = Protocol.Protocol(sio,ser)
+protocol = Protocol.Protocol(ser)
 while True:
     #sio.write(str("hello\n"))
     #sio.flush()  
