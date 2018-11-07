@@ -17,7 +17,7 @@ class Protocol:
         print(self.lastRead)
         self.lastReadString =str(self.lastRead,'utf-8').replace('\r', '')
         
-        if self.lastReadString == str("u alive ?\n",'utf-8'):
+        if self.lastReadString == str("u alive ?\n"):
             self.sendAlive()
             self.isAlive=1
         
