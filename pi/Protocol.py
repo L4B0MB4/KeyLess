@@ -9,7 +9,7 @@ class Protocol:
         self.ser = ser
         
     def sendAlive(self):
-        self.ser.write(str("I am alive"))
+        self.ser.write(b"I am alive")
 
     def read(self):
         print("try read")
@@ -17,7 +17,7 @@ class Protocol:
         print(self.lastRead)
         self.lastReadString =str(self.lastRead,'utf-8').replace('\r', '')
         
-        if self.lastReadString == str("u alive ?\n"):
+        if self.lastReadString == str("u alive ?\n",'utf-8'):
             self.sendAlive()
             self.isAlive=1
         
