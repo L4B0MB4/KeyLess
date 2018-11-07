@@ -12,11 +12,9 @@ class Protocol:
         self.ser.write(str("I am alive").encode())
 
     def read(self):
-        print("try read")
         self.lastRead = self.ser.readline()
-        print(self.lastRead)
         self.lastReadString =str(self.lastRead,'utf-8').replace('\r', '')
-        
+        print(self.lastReadString)
         if self.lastReadString == str("u alive ?\n"):
             self.sendAlive()
             self.isAlive=1
