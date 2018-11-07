@@ -13,6 +13,8 @@ class Protocol:
         self.serialIO.flush() 
 
     def read(self):
+        self.lastRead = self.serialIO.read(5)
+        print(self.lastRead)
         self.lastRead = self.serialIO.readline()
         self.lastReadString =str(self.lastRead,'utf-8').replace('\r', '')
         

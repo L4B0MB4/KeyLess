@@ -6,9 +6,7 @@ import Protocol
 ser = serial.Serial("/dev/ttyAMA0",9600)
 sio = io.TextIOWrapper(io.BufferedRWPair(ser, ser))
 protocol = Protocol.Protocol(sio)
-isAlive= 0
-readString =""
-while True and not isAlive:
+while True
     #sio.write(str("hello\n"))
     #sio.flush()  
     #time.sleep(1)
