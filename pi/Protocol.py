@@ -9,7 +9,7 @@ class Protocol:
         self.ser = ser
         
     def sendAlive(self):
-        self.ser.write(b"I am alive")
+        self.ser.write(str("I am alive").encode())
 
     def read(self):
         print("try read")
