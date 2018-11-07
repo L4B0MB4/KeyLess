@@ -5,7 +5,7 @@ class Protocol:
     serialIO = None
     lastRead = None
     lastReadString=""
-    def __init__(self,serialIO: io.TextIOWrapper):
+    def __init__(self,serialIO):
         self.serialIO = serialIO
         
     def sendAlive(self):
