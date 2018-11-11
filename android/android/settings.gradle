@@ -1,0 +1,7 @@
+rootProject.name = 'AwesomeProjekt'
+include ':react-native-kontaktio'
+project(':react-native-kontaktio').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-kontaktio/android')
+include ':react-native-beacons-manager'
+project(':react-native-beacons-manager').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-beacons-manager/android')
+
+include ':app'
