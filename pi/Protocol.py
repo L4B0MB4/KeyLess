@@ -9,7 +9,16 @@ class Protocol:
         self.ser = ser
         
     def sendAlive(self):
-        self.ser.write(str("I am alive").encode())
+        self.send("I am alive")
+
+
+    def send(self,value):
+        checksum =0
+        for i in range(0,len(value)):  
+            checksum += ord(value[i])
+
+        self.ser.write(str(value).encode())
+        self.ser.write(str(checksum).encode())
 
     def read(self):
         self.lastRead = self.ser.readline()
