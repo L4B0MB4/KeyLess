@@ -19,7 +19,7 @@ class Protocol:
             checksum += ord(value[i])
 
         self.ser.write(str(value).encode())
-        self.ser.write(str(checksum)+="\n".encode())
+        self.ser.write((str(checksum)+"\n").encode())
 
     def read(self):
         self.lastRead = self.ser.readline()
