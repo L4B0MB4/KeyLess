@@ -13,12 +13,13 @@ class Protocol:
 
 
     def send(self,value):
+        value+="\n"
         checksum =0
         for i in range(0,len(value)):  
             checksum += ord(value[i])
 
         self.ser.write(str(value).encode())
-        self.ser.write(str(checksum).encode())
+        self.ser.write(str(checksum)+="\n".encode())
 
     def read(self):
         self.lastRead = self.ser.readline()
