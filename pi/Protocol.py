@@ -22,7 +22,7 @@ class Protocol:
         if checksum == int(float(lastReadCheckSum)):
             return self.lastReadString
         else:
-            return "!!!Wrong Checksum!!!"+checksum
+            return "!!!Wrong Checksum!!!"+str(checksum)
 
 
     def handleRead(self):
