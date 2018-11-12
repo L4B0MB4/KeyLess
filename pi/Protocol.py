@@ -18,11 +18,11 @@ class Protocol:
         lastReadCheckSum =str(lastReadCheckSum,'utf-8').replace('\r', '')
         checksum =0
         for i in range(0,len(self.lastReadString)):  
-            checksum += self.lastReadString[i]
+            checksum += ord(self.lastReadString[i])
         if checksum == int(float(lastReadCheckSum)):
             return self.lastReadString
         else:
-            return "!!!Wrong Checksum!!!"
+            return "!!!Wrong Checksum!!!"+checksum
 
 
     def handleRead(self):
