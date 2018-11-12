@@ -11,6 +11,6 @@ while True:
     #time.sleep(1)
     if not protocol.isAlive:
         print("read")
-        protocol.read()
+        protocol.handleRead()
     else:
         break
