@@ -17,9 +17,9 @@ class Protocol:
         lastReadCheckSum = self.ser.readline()
         lastReadCheckSum =str(lastReadCheckSum,'utf-8').replace('\r', '')
         checksum =0
-        for x in range(0,len(self.lastReadString))  
+        for x in range(0,len(self.lastReadString)):  
             checksum += s[i]
-        if checksum == int(float(lastReadCheckSum))
+        if checksum == int(float(lastReadCheckSum)):
             return self.lastReadString
         else:
             return "!!!Wrong Checksum!!!
