@@ -137,6 +137,8 @@ android {
 }
 
 dependencies {
+    compile project(':rn-fetch-blob')
+    compile project(':react-native-audio')
     compile project(':react-native-kontaktio')
     compile project(':react-native-beacons-manager')
     implementation fileTree(dir: "libs", include: ["*.jar"])
