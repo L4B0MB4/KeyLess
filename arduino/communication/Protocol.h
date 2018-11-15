@@ -10,7 +10,10 @@ class Protocol
 {
   public:
     bool isAlive=false;
+    String readString = String();
     void SendAlive();
     void CheckAlive();
+    void Send(String s);
+    void Read();
 };
 #endif
