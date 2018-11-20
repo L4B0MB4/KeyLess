@@ -12,7 +12,7 @@ import { PermissionsAndroid } from 'react-native';
 import Kontakt from 'react-native-kontaktio';
 const { connect, startScanning } = Kontakt;
  
-export default class MinimalExample extends Component {
+export default class Beacon extends Component {
 
   constructor(props) {
     super(props);
@@ -91,6 +91,28 @@ export default class MinimalExample extends Component {
       },
     );
     this.getPermission().then(()=>console.log("permissions")).catch((err)=>console.log(err))
+
+
+    try{
+      fetch('192.168.0.45')
+        .then(response => {
+          if (response.status === 200) {
+            //return response.json();
+            console.log(response.json());
+          } else {
+            console.log("kein flask :(")
+            throw new Error('Something went wrong on api server!');
+          }
+        })
+        .then(response => {
+          console.debug("debug response: "+response);
+        }).catch(error => {
+          console.error("error: "+error);
+        });
+    } catch(error){
+      console.log(error);
+    }
+
   }
  
 
