@@ -80,11 +80,9 @@ export default class Beacon extends Component {
     this.fetchThis();
   }
 
-  fetchThis = async () => {
-    console.log("feeetch");
+  fetchThis = async (route) => {
     try {
-      const response = await fetch("http://192.168.0.109:80");
-      console.log("hier");
+      const response = await fetch("http://192.168.0.109:80/"+route);
       console.log(response);
     } catch (ex) {
       console.log("ERROR: " + ex);
@@ -102,8 +100,8 @@ export default class Beacon extends Component {
       <View style={styles.container}>
         <Text style={styles.header}>Smarte Haustüröffnung</Text>
         <Text style={styles.text}>{text}</Text>
-
-        <Button onPress={this.fetchThis} title="Fetch" color="#841584" />
+        <Button onPress={()=>this.fetchThis("led/on")} title="Led an" color="#841584" />
+        <Button onPress={()=>this.fetchThis("led/off")} title="Led aus" color="#841584" />
       </View>
     );
   }
