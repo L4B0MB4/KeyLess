@@ -1,14 +1,18 @@
 import time
 import io
 import serial
-import Protocol
+from Protocol import protocolInstance
+from server import startServer
 
-ser = serial.Serial("/dev/ttyAMA0",9600)
-protocol = Protocol.Protocol(ser)
+ser = serial.Serial("/dev/ttyAMA0", 9600)
+protocol = protocolInstance
+protocol.setSerial(ser)
+startServer()
+
 while True:
-    #sio.write(str("hello\n"))
-    #sio.flush()  
-    #time.sleep(1)
+    # sio.write(str("hello\n"))
+    # sio.flush()
+    # time.sleep(1)
     if not protocol.isAlive:
         print("read")
         protocol.handleRead()
