@@ -12,6 +12,9 @@ void Protocol::Send(String s)
   String checksumString = String(checksum);
   Serial.println(s);
   Serial.println(checksumString);
+  if("button pressed, was muss hier hin????"){
+    Serial.println("button was pressed");
+  }
 }
 
 
@@ -35,6 +38,14 @@ void Protocol::Read()
   else 
   {
     this->readString = "Wrong checksum " +checksumString;
+  }
+  if(readString.equals("turn led on")){
+    TurnLedOn();
+    Send("led is on");
+  }
+  else if(readString.equals("turn led off")){
+    TurnLedOff();
+    Send("led is off");
   }
 }
 
@@ -64,4 +75,14 @@ void Protocol::CheckAlive()
       this->Send("Cannot communicate: " + test);
     }
   }
+}
+
+void Protocol::TurnLedOn()
+{
+
+}
+
+void Protocol::TurnLedOff()
+{
+
 }

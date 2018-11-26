@@ -5,6 +5,8 @@ class Protocol:
     ser = None
     lastRead = None
     lastReadString=""
+    buttonPressed = 0
+    led = 0
     def __init__(self,ser):
         self.ser = ser
         
@@ -41,4 +43,13 @@ class Protocol:
         if readString == str("u alive ?\n"):
             self.sendAlive()
             self.isAlive=1
+        else if readString == str("button was pressed"):
+            buttonPressed = buttonPressed + 1
+        else if readString == str("led is on"):
+            led = 1
+        else if readString == str("led is off"):
+            led = 0
+
+
+
         
