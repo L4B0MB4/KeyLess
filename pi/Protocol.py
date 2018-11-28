@@ -1,5 +1,4 @@
 import io
-import threading
 
 
 class Protocol:
@@ -9,7 +8,6 @@ class Protocol:
     lastReadString = ""
     buttonPressedTimes = 0
     led = 0
-    sendList = []
 
     def setSerial(self, ser):
         self.ser = ser

@@ -5,15 +5,17 @@ from Protocol import protocolInstance
 from server import startServer
 import threading
 
-protocol = protocolInstance
-
 
 def readInput():
     while True:
-        protocol.handleRead()
+        if not protocol.isAlive:
+            protocol.handleRead()
+        else:
+            break
 
 
 ser = serial.Serial("/dev/ttyAMA0", 9600)
+protocol = protocolInstance
 protocol.setSerial(ser)
 thread = threading.Thread(target=readInput)
 thread.start()
