@@ -5,6 +5,7 @@ int lastButtonState = 0;
 int readingButtonState = 0;
 unsigned long lastDebounceTime = 0;
 unsigned long debounceDelay = 50;
+int buttonPin = 7;
 
 Protocol prot;
 void setup()
@@ -21,16 +22,14 @@ void loop()
 
 void checkButtonPress()
 {
-  if (readingButtonState != lastButtonState)
-  {
-    lastDebounceTime = millis();
-  }
+  readingButtonState = digitalRead(buttonPin);
 
   if ((millis() - lastDebounceTime) > debounceDelay)
   {
-    if (readingButtonState != lastButtonState)
+    if (readingButtonState != lastButtonState && readingButtonState == 1)
     {
       buttonPressed++;
+      lastDebounceTime = millis();
     }
   }
 
