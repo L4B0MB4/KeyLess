@@ -34,7 +34,7 @@ void checkButtonPress()
     }
   }
 
-  lastButtonState = reading;
+  lastButtonState = readingButtonState;
   if (buttonPressed > 0)
   {
     prot.Send("button was pressed");

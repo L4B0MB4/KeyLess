@@ -18,5 +18,6 @@ class Protocol
     void Read();
     void TurnLedOff();
     void TurnLedOn();
+    void SendButtonPressed();
 };
 #endif

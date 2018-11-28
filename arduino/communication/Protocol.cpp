@@ -52,7 +52,7 @@ void Protocol::SendAlive()
   if (this->isAlive == false && millis() - this->lastAliveMessage >= this->diffBetweenAliveMessages)
   {
     this->Send("u alive ?");
-    this.lastAliveMessage = millis();
+    this->lastAliveMessage = millis();
   }
 }
 
