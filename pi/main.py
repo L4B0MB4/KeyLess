@@ -3,7 +3,7 @@ import io
 import serial
 from Protocol import protocolInstance
 from server import startServer
-from threading
+import threading
 
 
 def readInput():
