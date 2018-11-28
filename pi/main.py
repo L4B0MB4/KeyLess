@@ -14,7 +14,6 @@ while True:
     # sio.flush()
     # time.sleep(1)
     if not protocol.isAlive:
-        print("read")
         protocol.handleRead()
     else:
         break

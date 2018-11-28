@@ -8,6 +8,8 @@
 class Protocol
 {
   public:
+    unsigned long lastAliveMessage = 0;
+    int diffBetweenAliveMessages = 1000;
     bool isAlive = false;
     String readString = String();
     void SendAlive();

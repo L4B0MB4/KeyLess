@@ -1,13 +1,43 @@
 #include "./Protocol.h"
 
+int buttonPressed = 0;
+int lastButtonState = 0;
+int readingButtonState = 0;
+unsigned long lastDebounceTime = 0;
+unsigned long debounceDelay = 50;
+
 Protocol prot;
-void setup() {
-Serial.begin(9600);
+void setup()
+{
+  Serial.begin(9600);
 }
 
-void loop() {
+void loop()
+{
   prot.SendAlive();
   prot.CheckAlive();
-  tone(8, 3000, 1000);
-  delay(1000);
+  checkButtonPress();
+}
+
+void checkButtonPress()
+{
+  if (readingButtonState != lastButtonState)
+  {
+    lastDebounceTime = millis();
+  }
+
+  if ((millis() - lastDebounceTime) > debounceDelay)
+  {
+    if (readingButtonState != lastButtonState)
+    {
+      buttonPressed++;
+    }
+  }
+
+  lastButtonState = reading;
+  if (buttonPressed > 0)
+  {
+    prot.Send("button was pressed");
+    buttonPressed--;
+  }
 }

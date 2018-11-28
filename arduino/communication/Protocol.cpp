@@ -49,10 +49,10 @@ void Protocol::Read()
 
 void Protocol::SendAlive()
 {
-  if (this->isAlive == false)
+  if (this->isAlive == false && millis() - this->lastAliveMessage >= this->diffBetweenAliveMessages)
   {
     this->Send("u alive ?");
-    delay(1000);
+    this.lastAliveMessage = millis();
   }
 }
 
