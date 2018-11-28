@@ -8,10 +8,7 @@ import threading
 
 def readInput():
     while True:
-        if not protocol.isAlive:
-            protocol.handleRead()
-        else:
-            break
+        protocol.handleRead()
 
 
 ser = serial.Serial("/dev/ttyAMA0", 9600)
