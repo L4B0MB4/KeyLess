@@ -18,8 +18,6 @@ void Protocol::Read()
 {
   String readString = Serial.readStringUntil(10);
   String readChecksum = Serial.readStringUntil(10);
-  Serial.println("just in: " + readString);
-  Serial.println("with checksum:" + readChecksum);
   int checksum = 0;
   for (int i = 0; readString[i] != '\0'; i++)
   {
@@ -34,16 +32,7 @@ void Protocol::Read()
   else
   {
     this->readString = "Wrong checksum " + checksumString;
-  }
-  if (readString.equals("turn led on"))
-  {
-    this->TurnLedOn();
-    this->Send("led is on");
-  }
-  else if (readString.equals("turn led off"))
-  {
-    this->TurnLedOff();
-    this->Send("led is off");
+    this->Send("expected checksum: " + checksumString + " but got instead:" + readChecksum);
   }
 }
 
@@ -58,8 +47,7 @@ void Protocol::SendAlive()
 
 void Protocol::CheckAlive()
 {
-  String test;
-  if (Serial.available() > 0)
+  if (Serial.available() > 0 && this->isAlive == false)
   {
     this->Read();
     if (this->readString.equals("I am alive"))
@@ -70,17 +58,35 @@ void Protocol::CheckAlive()
     }
     else
     {
-      this->Send("Cannot communicate: " + test);
+      this->Send("Cannot communicate: " + this->readString);
+    }
+  }
+}
+
+void Protocol::HandleRead()
+{
+  if (Serial.available() > 0 && this->isAlive == true)
+  {
+    this->Read();
+    if (this->readString.equals("turn led on"))
+    {
+      this->TurnLedOn();
+    }
+    else if (this->readString.equals("turn led off"))
+    {
+      this->TurnLedOff();
     }
   }
 }
 
 void Protocol::TurnLedOn()
 {
+  this->ledOn = 1;
 }
 
 void Protocol::TurnLedOff()
 {
+  this->ledOn = 0;
 }
 
 void Protocol::SendButtonPressed()

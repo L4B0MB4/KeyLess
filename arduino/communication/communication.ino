@@ -6,17 +6,21 @@ int readingButtonState = 0;
 unsigned long lastDebounceTime = 0;
 unsigned long debounceDelay = 50;
 int buttonPin = 7;
+int ledPin = 8;
 
 Protocol prot;
 void setup()
 {
   Serial.begin(9600);
+  pinMode(ledPin, OUTPUT);
 }
 
 void loop()
 {
+  digitalWrite(ledPin, prot.ledOn);
   prot.SendAlive();
   prot.CheckAlive();
+  prot.HandleRead();
   checkButtonPress();
 }
 

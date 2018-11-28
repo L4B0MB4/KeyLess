@@ -11,6 +11,7 @@ class Protocol
     unsigned long lastAliveMessage = 0;
     int diffBetweenAliveMessages = 1000;
     bool isAlive = false;
+    int ledOn = 0;
     String readString = String();
     void SendAlive();
     void CheckAlive();
@@ -19,5 +20,6 @@ class Protocol
     void TurnLedOff();
     void TurnLedOn();
     void SendButtonPressed();
+    void HandleRead();
 };
 #endif
