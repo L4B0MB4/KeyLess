@@ -18,11 +18,13 @@ def button():
 
 @app.route("/ledOn", methods=['GET'])
 def ledOn():
+    protocolInstance.send("turn led on")
     return "Turning LED on"
 
 
 @app.route("/ledOff", methods=['GET'])
 def ledOff():
+    protocolInstance.send("turn led off")
     return "Turning LED off"
 
 
