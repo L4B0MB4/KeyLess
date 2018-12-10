@@ -34,12 +34,15 @@ class Protocol:
         lastReadCheckSum = self.ser.readline()
         lastReadCheckSum = str(lastReadCheckSum, 'utf-8').replace('\r', '')
         checksum = 0
-        for i in range(0, len(self.lastReadString)):
-            checksum += ord(self.lastReadString[i])
-        if checksum == int(float(lastReadCheckSum)):
-            return self.lastReadString
-        else:
-            return "!!!Wrong Checksum!!!"+str(checksum)
+        try:
+            for i in range(0, len(self.lastReadString)):
+                checksum += ord(self.lastReadString[i])
+            if checksum == int(float(lastReadCheckSum)):
+                return self.lastReadString
+            else:
+                return "!!!Wrong Checksum!!!"+str(checksum)
+        except:
+            return "!!!Wrong Checksum!!!"
 
     def handleRead(self):
         readString = self.read()
