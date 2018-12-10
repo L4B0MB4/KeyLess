@@ -30,7 +30,8 @@ class Protocol:
             self.lastRead = self.ser.readline()
         except:
             print("There was an error while reading data")
-            self.lastRead = str("There was an error while reading data")
+            self.lastRead = bytes(
+                str("There was an error while reading data"), 'utf-8')
 
         self.lastReadString = str(self.lastRead, 'utf-8').replace('\r', '')
 
