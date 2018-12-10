@@ -25,7 +25,12 @@ class Protocol:
         self.ser.write((str(checksum)+"\n").encode())
 
     def read(self):
-        self.lastRead = self.ser.readline()
+        try:
+            self.lastRead = self.ser.readline()
+        except:
+            catch = self.ser.readline()
+            print("error while reading")
+            return
         self.lastReadString = str(self.lastRead, 'utf-8').replace('\r', '')
         lastReadCheckSum = self.ser.readline()
         lastReadCheckSum = str(lastReadCheckSum, 'utf-8').replace('\r', '')
