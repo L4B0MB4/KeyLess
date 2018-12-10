@@ -28,15 +28,15 @@ class Protocol:
 
         try:
             self.lastRead = self.ser.readline()
+            self.lastReadString = str(self.lastRead, 'utf-8').replace('\r', '')
         except:
             print("There was an error while reading data")
-        self.lastReadString = str(self.lastRead, 'utf-8').replace('\r', '')
         try:
             lastReadCheckSum = self.ser.readline()
+            lastReadCheckSum = str(lastReadCheckSum, 'utf-8').replace('\r', '')
         except:
             print("There was an error while reading checksum")
             return
-        lastReadCheckSum = str(lastReadCheckSum, 'utf-8').replace('\r', '')
         checksum = 0
         for i in range(0, len(self.lastReadString)):
             checksum += ord(self.lastReadString[i])
