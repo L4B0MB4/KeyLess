@@ -25,24 +25,17 @@ class Protocol:
         self.ser.write((str(checksum)+"\n").encode())
 
     def read(self):
-        try:
-            self.lastRead = self.ser.readline()
-        except:
-            print("error while reading")
-            return "!!!Wrong Checksum!!!"
+        self.lastRead = self.ser.readline()
         self.lastReadString = str(self.lastRead, 'utf-8').replace('\r', '')
         lastReadCheckSum = self.ser.readline()
         lastReadCheckSum = str(lastReadCheckSum, 'utf-8').replace('\r', '')
         checksum = 0
-        try:
-            for i in range(0, len(self.lastReadString)):
-                checksum += ord(self.lastReadString[i])
-            if checksum == int(float(lastReadCheckSum)):
-                return self.lastReadString
-            else:
-                return "!!!Wrong Checksum!!!"+str(checksum)
-        except:
-            return "!!!Wrong Checksum!!!"
+        for i in range(0, len(self.lastReadString)):
+            checksum += ord(self.lastReadString[i])
+        if checksum == int(float(lastReadCheckSum)):
+            return self.lastReadString
+        else:
+            return "!!!Wrong Checksum!!!"+str(checksum)
 
     def handleRead(self):
         readString = self.read()
