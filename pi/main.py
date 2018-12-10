@@ -4,10 +4,11 @@ import serial
 from Protocol import protocolInstance
 from server import startServer
 import threading
+ThreadRunning = 0
 
 
 def readInput():
-    print("hiiier")
+    ThreadRunning = 1
     while True:
         protocol.handleRead()
 
@@ -15,6 +16,7 @@ def readInput():
 ser = serial.Serial("/dev/ttyAMA0", 9600)
 protocol = protocolInstance
 protocol.setSerial(ser)
-thread = threading.Thread(target=readInput)
-thread.start()
+if ThreadRunning == 0:
+    thread = threading.Thread(target=readInput)
+    thread.start()
 startServer()
