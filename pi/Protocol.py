@@ -30,7 +30,7 @@ class Protocol:
             self.lastRead = self.ser.readline()
         except:
             print("There was an error while reading data")
-            self.lastRead = ""
+            self.lastRead = str("There was an error while reading data")
 
         self.lastReadString = str(self.lastRead, 'utf-8').replace('\r', '')
 
@@ -38,7 +38,7 @@ class Protocol:
             lastReadCheckSum = self.ser.readline()
         except:
             print("There was an error while reading checksum")
-            lastReadCheckSum = -123
+            lastReadCheckSum = ("666")
 
         lastReadCheckSum = str(lastReadCheckSum, 'utf-8').replace('\r', '')
         checksum = 0
