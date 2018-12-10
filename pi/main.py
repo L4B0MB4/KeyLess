@@ -11,9 +11,9 @@ def readInput():
         protocol.handleRead()
 
 
+startServer()
 ser = serial.Serial("/dev/ttyAMA0", 9600)
 protocol = protocolInstance
 protocol.setSerial(ser)
 thread = threading.Thread(target=readInput)
 thread.start()
-startServer()
