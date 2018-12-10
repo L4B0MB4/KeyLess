@@ -39,7 +39,7 @@ class Protocol:
             lastReadCheckSum = self.ser.readline()
         except:
             print("There was an error while reading checksum")
-            lastReadCheckSum = ("666")
+            lastReadCheckSum = bytes(str("666"), 'utf-8')
 
         lastReadCheckSum = str(lastReadCheckSum, 'utf-8').replace('\r', '')
         checksum = 0
