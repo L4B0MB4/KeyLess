@@ -25,9 +25,17 @@ class Protocol:
         self.ser.write((str(checksum)+"\n").encode())
 
     def read(self):
-        self.lastRead = self.ser.readline()
+
+        try:
+            self.lastRead = self.ser.readline()
+        except:
+            print("There was an error while reading data")
         self.lastReadString = str(self.lastRead, 'utf-8').replace('\r', '')
-        lastReadCheckSum = self.ser.readline()
+        try:
+            lastReadCheckSum = self.ser.readline()
+        except:
+            print("There was an error while reading checksum")
+            return
         lastReadCheckSum = str(lastReadCheckSum, 'utf-8').replace('\r', '')
         checksum = 0
         for i in range(0, len(self.lastReadString)):
@@ -38,11 +46,7 @@ class Protocol:
             return "!!!Wrong Checksum!!!"+str(checksum)
 
     def handleRead(self):
-        try:
             readString = self.read()
-        except:
-            print("There was an error while reading")
-            return
         print(readString)
         if readString == str("u alive ?\n"):
             self.sendAlive()
