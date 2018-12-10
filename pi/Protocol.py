@@ -46,7 +46,7 @@ class Protocol:
             return "!!!Wrong Checksum!!!"+str(checksum)
 
     def handleRead(self):
-            readString = self.read()
+        readString = self.read()
         print(readString)
         if readString == str("u alive ?\n"):
             self.sendAlive()
