@@ -29,10 +29,6 @@ class Protocol:
             self.lastRead = self.ser.readline()
         except:
             print("error while reading")
-            try:
-                self.ser.readline()
-            except:
-                print("error reading checksum")
             return "!!!Wrong Checksum!!!"
         self.lastReadString = str(self.lastRead, 'utf-8').replace('\r', '')
         lastReadCheckSum = self.ser.readline()
