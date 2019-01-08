@@ -30,7 +30,10 @@ class Protocol:
                 self.lastRead, 'utf-8').replace('\r', '').replace("\n", "")
             return self.lastReadString
         except:
-            print("couldnt transform: "+self.lastRead)
+            try:
+                print("couldnt transform into utf8: "+str(self.lastRead))
+            except:
+                print("couldnt handle string")
             return ""
         splitting = self.lastReadString.split("||CHECKSUM||")
         self.lastReadString = splitting[0]
