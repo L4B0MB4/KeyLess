@@ -20,7 +20,7 @@ class Protocol:
         checksum = 0
         for i in range(0, len(value)):
             checksum += ord(value[i])
-        print((str(value)+"||CHECKSUM||" + str(checksum))
+        print((str(value)+"||CHECKSUM||" + str(checksum)))
         self.ser.write((str(value)+"||CHECKSUM||" + str(checksum)).encode())
 
     def read(self):
