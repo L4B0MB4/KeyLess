@@ -33,6 +33,7 @@ class Protocol:
         checksum = 0
         for i in range(0, len(self.lastReadString)):
             checksum += ord(self.lastReadString[i])
+
         if checksum == int(float(lastReadCheckSum)):
             return self.lastReadString
         else:
@@ -41,14 +42,14 @@ class Protocol:
     def handleRead(self):
         readString = self.read()
         print(readString)
-        if readString == str("u alive ?\n"):
+        if readString == str("u alive ?"):
             self.sendAlive()
             self.isAlive = 1
-        elif readString == str("button was pressed\n"):
+        elif readString == str("button was pressed"):
             self.buttonPressedTimes = self.buttonPressedTimes + 1
-        elif readString == str("led is on\n"):
+        elif readString == str("led is on"):
             self.led = 1
-        elif readString == str("led is off\n"):
+        elif readString == str("led is off"):
             self.led = 0
 
     def getButtonPressedTimes(self):
