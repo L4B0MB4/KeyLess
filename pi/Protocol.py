@@ -28,9 +28,10 @@ class Protocol:
             self.lastRead = self.ser.readline()
             self.lastReadString = str(
                 self.lastRead, 'utf-8').replace('\r', '').replace("\n", "")
+            return self.lastReadString
         except:
             print("couldnt transform: "+self.lastRead)
-        return self.lastReadString
+            return ""
         splitting = self.lastReadString.split("||CHECKSUM||")
         self.lastReadString = splitting[0]
         lastReadCheckSum = splitting[1].replace('\n', '')
