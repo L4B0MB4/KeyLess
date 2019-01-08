@@ -24,7 +24,7 @@ class Protocol:
 
     def read(self):
         self.lastRead = self.ser.readline()
-        if(self.lastRead.startswith("READ"):
+        if(self.lastRead.startswith("READ")):
             return
         self.lastReadString = str(self.lastRead, 'utf-8').replace('\r', '')
         splitting = self.lastReadString.split("||CHECKSUM||")
