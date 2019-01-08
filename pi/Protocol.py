@@ -20,15 +20,15 @@ class Protocol:
         checksum = 0
         for i in range(0, len(value)):
             checksum += ord(value[i])
-
-        self.ser.write(str(value).encode())
-        self.ser.write((str(checksum)+"\n").encode())
+        self.ser.write((str(value)+"||CHECKSUM||" + str(checksum)).encode())
 
     def read(self):
         self.lastRead = self.ser.readline()
         self.lastReadString = str(self.lastRead, 'utf-8').replace('\r', '')
-        lastReadCheckSum = self.ser.readline()
-        lastReadCheckSum = str(lastReadCheckSum, 'utf-8').replace('\r', '')
+        splitting = self.lastReadString.split("||CHECKSUM||")
+        self.lastReadString=splitting[0]
+        lastReadCheckSum = splitting[1]
+        print(splitting)
         checksum = 0
         for i in range(0, len(self.lastReadString)):
             checksum += ord(self.lastReadString[i])
