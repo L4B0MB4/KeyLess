@@ -19,14 +19,16 @@ class Protocol:
         checksum = 0
         for i in range(0, len(value)):
             checksum += ord(value[i])
-        print((str(value)+"||CHECKSUM||" + str(checksum)))
-        self.ser.write((str(value)+"||CHECKSUM||" + str(checksum)).encode())
+        #print((str(value)+"||CHECKSUM||" + str(checksum)))
+        #self.ser.write((str(value)+"||CHECKSUM||" + str(checksum)).encode())
+        self.ser.write((str(value)).encode())
 
     def read(self):
         self.lastRead = self.ser.readline()
         self.lastReadString = str(self.lastRead, 'utf-8').replace('\r', '')
+        return self.lastReadString
         splitting = self.lastReadString.split("||CHECKSUM||")
-        self.lastReadString=splitting[0]
+        self.lastReadString = splitting[0]
         lastReadCheckSum = splitting[1].replace('\n', '')
         print(splitting)
         checksum = 0
