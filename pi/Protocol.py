@@ -27,7 +27,7 @@ class Protocol:
         self.lastReadString = str(self.lastRead, 'utf-8').replace('\r', '')
         splitting = self.lastReadString.split("||CHECKSUM||")
         self.lastReadString=splitting[0]
-        lastReadCheckSum = splitting[1]
+        lastReadCheckSum = splitting[1].replace('\n', '')
         print(splitting)
         checksum = 0
         for i in range(0, len(self.lastReadString)):
