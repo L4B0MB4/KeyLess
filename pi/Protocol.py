@@ -16,7 +16,6 @@ class Protocol:
         self.send("I am alive")
 
     def send(self, value):
-        value += "\n"
         checksum = 0
         for i in range(0, len(value)):
             checksum += ord(value[i])
