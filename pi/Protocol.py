@@ -24,9 +24,12 @@ class Protocol:
         self.ser.write((str(value)).encode())
 
     def read(self):
-        self.lastRead = self.ser.readline()
-        self.lastReadString = str(
-            self.lastRead, 'utf-8').replace('\r', '').replace("\n", "")
+        try:
+            self.lastRead = self.ser.readline()
+            self.lastReadString = str(
+                self.lastRead, 'utf-8').replace('\r', '').replace("\n", "")
+        except:
+            print("couldnt transform: "+self.lastRead)
         return self.lastReadString
         splitting = self.lastReadString.split("||CHECKSUM||")
         self.lastReadString = splitting[0]
