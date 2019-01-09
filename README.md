@@ -9,3 +9,5 @@ This is a university project with the goal of opening doors with the help of BLE
 - [ ] Telfon öffnen und inspizieren @L4B0MB4
 - [ ] App zur API connecten und Befehle geben @isabelsta
 - [ ] PI zur API connecten und Befehle einsammeln @L4B0MB4
+- [ ] Azure CLi holen @isabelsta
+- [ ] Auf @L4B0MB4 hören @isabelsta
