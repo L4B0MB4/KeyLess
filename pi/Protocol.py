@@ -13,7 +13,7 @@ class Protocol:
         self.ser = ser
 
     def sendAlive(self):
-        self.send("I am alive")
+        self.send("VERIFY-ALIVE")
 
     def send(self, value):
         checksum = 0
@@ -35,23 +35,11 @@ class Protocol:
             except:
                 print("couldnt handle string")
             return ""
-        splitting = self.lastReadString.split("||CHECKSUM||")
-        self.lastReadString = splitting[0]
-        lastReadCheckSum = splitting[1].replace('\n', '')
-        print(splitting)
-        checksum = 0
-        for i in range(0, len(self.lastReadString)):
-            checksum += ord(self.lastReadString[i])
-
-        if checksum == int(float(lastReadCheckSum)):
-            return self.lastReadString
-        else:
-            return "!!!Wrong Checksum!!!"+str(checksum)
 
     def handleRead(self):
         readString = self.read()
         print(readString)
-        if readString == str("u alive ?"):
+        if readString == str("CHECK-ALIVE"):
             self.sendAlive()
             self.isAlive = 1
         elif readString == str("button was pressed"):
