@@ -1,58 +1,44 @@
 import React, { Component } from "react";
+import { DeviceEventEmitter } from "react-native";
 import { Text, View, StyleSheet } from "react-native";
-import { startBeaconScanning } from "./components/Beacon";
+import Kontakt from "react-native-kontaktio";
+import { getPermission } from "./components/Permission"
+const { connect, startScanning } = Kontakt;
+import { PermissionsAndroid } from "react-native";
 
 export default class Beacon extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      beaconName: "",
-      beaconAddress: "",
-      beaconNamespace: "",
-      buttonPressed: "",
-      url: "192.168.0.107:8080"
-    };
-    startBeaconScanning(this.beaconAppeared, this.beaconDisappeared);
+  
+  componentDidMount() {
+    const granted = getPermission(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION, "Location");
+    if (!granted){
+       console.log("kein permission");
+    } else{
+      connect(
+        undefined,
+        ["EDDYSTONE", "IBEACON"]
+      )
+        .then(() => startScanning())
+        .catch(error => console.log('error', error));
+  
+      
+      DeviceEventEmitter.addListener(
+        'eddystonesDidUpdate',
+        ({ eddystones, namespace }) => {
+          console.log('eddystonesDidUpdate', eddystones, namespace);
+        },
+      );
+      
+      DeviceEventEmitter.addListener(
+        'beaconsDidUpdate',
+        ({ beacons, region }) => {
+          console.log('beaconsDidUpdate', beacons, region);
+        },
+      );
+    }
   }
-
-  beaconAppeared = eddystone => {
-    this.setState({
-      beaconName: eddystone.name,
-      beaconAddress: eddystone.address,
-      beaconNamespace: eddystone.namespace
-    });
-  };
-
-  beaconDisappeared = eddystone => {
-    this.setState({
-      beaconName: "",
-      beaconAddress: "",
-      beaconNamespace: ""
-    });
-  };
-
-  fetchThis = async route => {
-    try {
-      const response = await fetch("http://" + this.state.url + route);
-    } catch (ex) {
-      console.log("ERROR: " + ex);
-    }
-  };
-
+ 
   render() {
-    const { beaconAddress, beaconName, beaconNamespace, buttonPressed } = this.state;
-    if (beaconAddress == "C4:E7:AA:00:E5:7D" && beaconNamespace == "646f6f72426561636f6e") {
-      text = <Text>Dein Beacon "{beaconName}" ist in der Nähe. Die Tür wird jetzt geöffnet.</Text>;
-    } else {
-      text = <Text>Dein Beacon wurde nicht in der Nähe erkannt.</Text>;
-    }
-    return (
-      <View style={styles.container}>
-        <Text style={styles.header}>Smarte Haustüröffnung</Text>
-        <Text style={styles.text}>{text}</Text>
-        <Text>{"\n Hot reload"}</Text>
-      </View>
-    );
+    return <View />;
   }
 }
 
