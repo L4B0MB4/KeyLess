@@ -3,33 +3,26 @@ import Kontakt from "react-native-kontaktio";
 const { connect, startScanning } = Kontakt;
 
 
-export async function startBeaconScanning(beaconAppeared, beaconDisappeared) {
+export async function startBeaconScanning(beaconsDidUpdate, eddystonesDidUpdate) {
   const granted = await getPermission(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION, "Location");
   if (!granted) return;
-  initializeBeaconDetectors(eddystoneAppeared, eddystoneDisappeared, ibeaconAppeared, ibeaconDisappeared);
+  initializeBeaconDetectors(beaconsDidUpdate, eddystonesDidUpdate);
   await connect(
     undefined,
-    ["EDDYSTONE"],
-    ["IBEACON"]
+    ["EDDYSTONE", "IBEACON"]
   );
   startScanning();
 }
 
-export function initializeBeaconDetectors(eddystoneDidAppear, eddystoneDidDisappear, ibeaconDidAppear, ibeaconDidDisappear) {
-  DeviceEventEmitter.addListener("eddystoneDidAppear", ({ eddystone, namespace }) => {
-    eddystoneDidAppear(eddystone);
+export function initializeBeaconDetectors(beaconsDidUpdate, eddystonesDidUpdate) {
+  DeviceEventEmitter.addListener("eddystonesDidUpdate", ({ eddystones, namespace }) => {
+    console.log('eddystonesDidUpdate', eddystones, namespace);
+    eddystonesDidUpdate(eddystones);
   });
 
-  DeviceEventEmitter.addListener("beaconDidAppear", ({ beacon, region }) => {
-    beaconDidAppear(beacon);
-  });
-
-  DeviceEventEmitter.addListener("eddystoneDidDisappear", ({ eddystone, namespace }) => {
-    eddystoneDidDisappear(eddystone);
-  });
-
-  DeviceEventEmitter.addListener("beaconDidDisappear", ({ beacon, region }) => {
-    beaconDidDisappear(beacon);
+  DeviceEventEmitter.addListener("beaconsDidUpdate", ({ beacons, region }) => {
+    console.log('beaconsDidUpdate', beacons, region);
+    beaconsDidUpdate(beacons);
   });
 
   DeviceEventEmitter.addListener("namespaceDidEnter", ({ namespace }) => {});
