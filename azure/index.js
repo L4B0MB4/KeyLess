@@ -7,13 +7,6 @@ app.use(require("body-parser").json());
 var ownerCommands = [];
 var visitorRequests = [];
 
-app.get("/", function(req, res) {
-  res.send("welcome");
-});
-
-app.get("/azure ", function(req, res) {
-  res.send("welcome azure");
-});
 app.get("/azure/owner", function(req, res) {
   if (visitorRequests.length > 0) {
     res.send(visitorRequests);
