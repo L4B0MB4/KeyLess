@@ -1,11 +1,55 @@
-var http = require("http");
+var port = process.env.PORT || 8080;
 
-var server = http.createServer(function(request, response) {
-  response.writeHead(200, { "Content-Type": "text/plain" });
-  response.end("Hello World!");
+var express = require("express");
+var app = express();
+app.use(require("body-parser").json());
+
+var ownerCommands = [];
+var visitorRequests = [];
+
+app.get("/owner", function(req, res) {
+  res.send(visitorRequests);
 });
 
-var port = process.env.PORT || 1337;
-server.listen(port);
+/*
+  Format=> {
+	"command":"open-door",
+	"for":"beacon"
+  }
+ */
 
-console.log("Server running at http://localhost:%d", port);
+app.post("/owner", function(req, res) {
+  var body = req.body;
+  var response = { sucess: false };
+  if (body.command === "open-door") {
+    ownerCommands.push(body);
+    response.sucess = true;
+  }
+  res.send(response);
+});
+
+app.get("/visitor", function(req, res) {
+  res.send(ownerCommands);
+});
+
+/*
+  Format=> {
+	"request":"open-door",
+	"sender":"device e.g. android",
+	"beacon":"beacon-adress"
+  }
+ */
+
+app.post("/visitor", function(req, res) {
+  var body = req.body;
+  var response = { sucess: false };
+  if (body.request === "open-door") {
+    visitorRequests.push(body);
+    response.sucess = true;
+  }
+  res.send(response);
+});
+
+app.listen(port, function() {
+  console.log("Example app listening on port " + port + "!");
+});

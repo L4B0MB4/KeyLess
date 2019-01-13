@@ -1,11 +1,14 @@
 {
-    "name": "app-service-hello-world",
-    "description": "Simple Hello World Node.js sample for Azure App Service",
-    "version": "0.0.1",
-    "private": true,
-    "license": "MIT",
-    "author": "Microsoft",
-    "scripts": {
-        "start": "node index.js"
-    }
+  "name": "key-less-api",
+  "description": "KeyLessAPI",
+  "version": "0.0.1",
+  "private": true,
+  "license": "MIT",
+  "author": "L4B0MB4",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.16.4"
+  }
 }
