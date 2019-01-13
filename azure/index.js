@@ -8,7 +8,11 @@ var ownerCommands = [];
 var visitorRequests = [];
 
 app.get("/owner", function(req, res) {
-  res.send(visitorRequests);
+  if (visitorRequests.length > 0) {
+    res.send(visitorRequests);
+  } else {
+    res.send({ success: false });
+  }
 });
 
 /*
@@ -29,7 +33,11 @@ app.post("/owner", function(req, res) {
 });
 
 app.get("/visitor", function(req, res) {
-  res.send(ownerCommands);
+  if (ownerCommands.length > 0) {
+    res.send(ownerCommands);
+  } else {
+    res.send({ success: false });
+  }
 });
 
 /*
