@@ -11,6 +11,7 @@
     "react-native": "0.57.4",
     "react-native-beacons-manager": "^1.0.7",
     "react-native-kontaktio": "^2.1.0",
+    "react-native-router-flux": "^4.0.6",
     "react-navigation": "^3.0.0"
   },
   "devDependencies": {
