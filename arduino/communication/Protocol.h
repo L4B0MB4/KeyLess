@@ -9,12 +9,12 @@ class Protocol
 {
   public:
     unsigned long lastAliveMessage = 0;
-    int diffBetweenAliveMessages = 1000;
+    int diffBetweenAliveMessages = 5000;
     bool isAlive = false;
+    bool hasSentAliveYet = false;
     int ledOn = 0;
     String readString = String();
     void SendAlive();
-    void CheckAlive();
     void Send(String s);
     void Read();
     void TurnLedOff();
