@@ -7,7 +7,14 @@ app.use(require("body-parser").json());
 var ownerCommands = [];
 var visitorRequests = [];
 
-app.get("/owner", function(req, res) {
+app.get("/", function(req, res) {
+  res.send("welcome");
+});
+
+app.get("/azure ", function(req, res) {
+  res.send("welcome azure");
+});
+app.get("/azure/owner", function(req, res) {
   if (visitorRequests.length > 0) {
     res.send(visitorRequests);
   } else {
@@ -22,7 +29,7 @@ app.get("/owner", function(req, res) {
   }
  */
 
-app.post("/owner", function(req, res) {
+app.post("/azure/owner", function(req, res) {
   var body = req.body;
   var response = { sucess: false };
   if (body.command === "open-door") {
@@ -32,7 +39,7 @@ app.post("/owner", function(req, res) {
   res.send(response);
 });
 
-app.get("/visitor", function(req, res) {
+app.get("/azure/visitor", function(req, res) {
   if (ownerCommands.length > 0) {
     res.send(ownerCommands);
   } else {
@@ -48,7 +55,7 @@ app.get("/visitor", function(req, res) {
   }
  */
 
-app.post("/visitor", function(req, res) {
+app.post("/azure/visitor", function(req, res) {
   var body = req.body;
   var response = { sucess: false };
   if (body.request === "open-door") {
