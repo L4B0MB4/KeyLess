@@ -1,12 +1,14 @@
 import { DeviceEventEmitter } from "react-native";
 import Kontakt from "react-native-kontaktio";
 const { connect, startScanning } = Kontakt;
+import { getPermission } from "./Permission";
+import { PermissionsAndroid } from "react-native";
 
 
-export async function startBeaconScanning(beaconsDidUpdate, eddystonesDidUpdate) {
+export async function startBeaconScanning(eddystoneAppeared, eddystoneDisappeared, beaconAppeared, beaconDisappeared) {
   const granted = await getPermission(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION, "Location");
-  if (!granted) return;
-  initializeBeaconDetectors(beaconsDidUpdate, eddystonesDidUpdate);
+  if(!granted) return;
+  initializeBeaconDetectors(eddystoneAppeared, eddystoneDisappeared, beaconAppeared, beaconDisappeared);
   await connect(
     undefined,
     ["EDDYSTONE", "IBEACON"]
@@ -14,15 +16,26 @@ export async function startBeaconScanning(beaconsDidUpdate, eddystonesDidUpdate)
   startScanning();
 }
 
-export function initializeBeaconDetectors(beaconsDidUpdate, eddystonesDidUpdate) {
-  DeviceEventEmitter.addListener("eddystonesDidUpdate", ({ eddystones, namespace }) => {
-    console.log('eddystonesDidUpdate', eddystones, namespace);
-    eddystonesDidUpdate(eddystones);
+export function initializeBeaconDetectors(eddystoneDidAppear, eddystoneDidDisappear, beaconDidAppear, beaconDidDisappear) {
+  
+  DeviceEventEmitter.addListener("eddystoneDidAppear", ({ eddystone, namespace }) => {
+    console.log("eddystoneDidAppear", eddystone, namespace);
+    eddystoneDidAppear(eddystone);
   });
 
-  DeviceEventEmitter.addListener("beaconsDidUpdate", ({ beacons, region }) => {
-    console.log('beaconsDidUpdate', beacons, region);
-    beaconsDidUpdate(beacons);
+  DeviceEventEmitter.addListener("eddystoneDidDisappear", ({ eddystone, namespace }) => {
+    console.log("eddystoneDidDisappear", eddystone, namespace);
+    eddystoneDidDisappear(eddystone);
+  });
+
+  DeviceEventEmitter.addListener("beaconDidAppear", ({ beacon, region }) => {
+    console.log("beaconDidAppear", beacon, region);
+    beaconDidAppear(beacon);
+  });
+
+  DeviceEventEmitter.addListener("beaconDidDisappear", ({ beacon, region }) => {
+    console.log("beaconDidDisappear", beacon, region);
+    beaconDidDisappear(beacon);
   });
 
   DeviceEventEmitter.addListener("namespaceDidEnter", ({ namespace }) => {});
