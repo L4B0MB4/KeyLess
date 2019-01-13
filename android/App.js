@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, Picker } from "react-native";
 import { startBeaconScanning } from "./components/Beacon";
 
 export default class Beacon extends Component {
@@ -7,7 +7,8 @@ export default class Beacon extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      beacon_list: []
+      beacon_list: [],
+      selected_beacon: ""
     };
 
     startBeaconScanning(this.eddystoneAppeared, this.eddystoneDisappeared, this.beaconAppeared, this.beaconDisappeared);
@@ -82,14 +83,16 @@ export default class Beacon extends Component {
   };
 
   _renderBeacons = () => {
-    return this.state.beacon_list.map((beacon, ind) => (
-      <View key={ind}>
-        <Text>{beacon.name}</Text>
-        <Text>Distance: {beacon.accuracy}</Text>
-        <Text>Proximity: {beacon.proximity}</Text>  
-        <Text>{"\n "}</Text>      
-      </View>
-    ), this);
+    return (
+      <View>
+        <Picker onValueChange={(itemValue) => this.setState({selected_beacon: itemValue})}>
+            {this.state.beacon_list.map((beacon, ind) => (
+              <Picker.Item label={beacon.proximity} value={beacon.proximity} />
+            ), this)}
+        </Picker> 
+        <Text>Ausgewählter Beacon: {this.state.selected_beacon}</Text>        
+    </View>
+    )
   };
 
   _renderEmpty = () => {
