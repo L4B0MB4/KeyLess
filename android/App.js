@@ -36,6 +36,24 @@ export default class Beacon extends Component {
         });
       });
 
+      DeviceEventEmitter.addListener('eddystoneDidDisappear', ({ eddystone, namespace }) => {
+        console.log("eddystoneDidDisappear", eddystone, namespace);
+        const index = this.state.beacon_list.findIndex(list_beacon =>
+          this._isIdenticalEddystone(eddystone, list_beacon)
+        );
+        this.setState({
+          beacon_list: this.state.beacon_list.reduce((result, val, ind) => {
+            // don't add disappeared beacon to array
+            if (ind === index) return result;
+            // add all other beacons to array
+            else {
+              result.push(val);
+              return result;
+            }
+          }, [])
+        });
+      });
+
       DeviceEventEmitter.addListener('beaconDidAppear', ({ beacon, region }) => {
         console.log("beaconDidAppear", beacon, region);
         this.setState({
@@ -43,8 +61,23 @@ export default class Beacon extends Component {
         });
       });
 
-     
-     
+      DeviceEventEmitter.addListener('beaconDidDisappear', ({ beacon, region }) => {
+        console.log("beaconDidDisappear", beacon, region);
+        const index = this.state.beacon_list.findIndex(list_beacon =>
+          this._isIdenticalBeacon(beacon, list_beacon)
+        );
+        this.setState({
+          beacon_list: this.state.beacon_list.reduce((result, val, ind) => {
+            // don't add disappeared beacon to array
+            if (ind === index) return result;
+            // add all other beacons to array
+            else {
+              result.push(val);
+              return result;
+            }
+          }, [])
+        });
+      });
 
     }
   }
@@ -56,6 +89,21 @@ export default class Beacon extends Component {
       console.log("ERROR: " + ex);
     }
   };
+
+
+  _isIdenticalBeacon = (b1, b2) => (
+    (b1.identifier === b2.identifier) &&
+    (b1.uuid === b2.uuid) &&
+    (b1.major === b2.major) &&
+    (b1.minor === b2.minor)
+  );
+
+  _isIdenticalEddystone = (b1, b2) => (
+    (b1.identifier === b2.identifier) &&
+    (b1.name === b2.name) &&
+    (b1.namespace === b2.namespace) &&
+    (b1.instanceId === b2.instanceId)
+  );
 
   _renderBeacons = () => {
     return this.state.beacon_list.map((beacon, ind) => (
