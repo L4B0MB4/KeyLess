@@ -1,13 +1,12 @@
 import { DeviceEventEmitter } from "react-native";
 import Kontakt from "react-native-kontaktio";
-const { connect, startScanning } = Kontakt;
 import { getPermission } from "./Permission";
+const { connect, startScanning } = Kontakt;
 import { PermissionsAndroid } from "react-native";
-
 
 export async function startBeaconScanning(eddystoneAppeared, eddystoneDisappeared, beaconAppeared, beaconDisappeared) {
   const granted = await getPermission(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION, "Location");
-  if(!granted) return;
+  if (!granted) return;
   initializeBeaconDetectors(eddystoneAppeared, eddystoneDisappeared, beaconAppeared, beaconDisappeared);
   await connect(
     undefined,
@@ -17,7 +16,6 @@ export async function startBeaconScanning(eddystoneAppeared, eddystoneDisappeare
 }
 
 export function initializeBeaconDetectors(eddystoneDidAppear, eddystoneDidDisappear, beaconDidAppear, beaconDidDisappear) {
-  
   DeviceEventEmitter.addListener("eddystoneDidAppear", ({ eddystone, namespace }) => {
     console.log("eddystoneDidAppear", eddystone, namespace);
     eddystoneDidAppear(eddystone);
