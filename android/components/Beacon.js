@@ -1,6 +1,8 @@
 import { DeviceEventEmitter } from "react-native";
 import Kontakt from "react-native-kontaktio";
+import { getPermission } from "./Permission";
 const { connect, startScanning } = Kontakt;
+import { PermissionsAndroid } from "react-native";
 
 export async function startBeaconScanning(beaconAppeared, beaconDisappeared) {
   const granted = await getPermission(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION, "Location");
