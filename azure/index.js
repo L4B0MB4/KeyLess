@@ -87,8 +87,8 @@ connectMongoDB()
     app.listen(port, function() {
       dataBase = db;
       console.log("Example app listening on port " + port + "!");
+      testInsert();
     });
-    testInsert();
   })
   .catch(function(err) {
     console.log(err);
