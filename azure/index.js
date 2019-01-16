@@ -82,12 +82,12 @@ function testInsert() {
     });
 }
 
-app.listen(port, function() {
-  dataBase = db;
-  console.log("Example app listening on port " + port + "!");
-});
 connectMongoDB()
   .then(function(db) {
+    app.listen(port, function() {
+      dataBase = db;
+      console.log("Example app listening on port " + port + "!");
+    });
     testInsert();
   })
   .catch(function(err) {
