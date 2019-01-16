@@ -3,7 +3,7 @@ var port = process.env.PORT || 8080;
 var express = require("express");
 var app = express();
 app.use(require("body-parser").json());
-//var connectMongoDB = require("./database.js").connectMongoDB;
+var connectMongoDB = require("./database.js").connectMongoDB;
 var dataBase = null;
 
 var ownerCommands = [];
