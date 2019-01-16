@@ -3,7 +3,7 @@ var port = process.env.PORT || 8080;
 var express = require("express");
 var app = express();
 app.use(require("body-parser").json());
-var connectMongoDB = require("./database.js").connectMongoDB;
+//var connectMongoDB = require("./database.js").connectMongoDB;
 var dataBase = null;
 
 var ownerCommands = [];
@@ -60,7 +60,7 @@ app.post("/azure/visitor", function(req, res) {
   res.send(response);
 });
 
-function testInsert() {
+/*function testInsert() {
   var collection = dataBase.collection("devices");
   collection
     .findOne({ name: "test" })
@@ -80,17 +80,17 @@ function testInsert() {
     .catch(function(err) {
       console.log(err);
     });
-}
+}*/
 
 app.listen(port, function() {
   dataBase = db;
   console.log("Example app listening on port " + port + "!");
 });
-connectMongoDB()
+/*connectMongoDB()
   .then(function(db) {
     testInsert();
   })
   .catch(function(err) {
     console.log(err);
     console.log("Couldn´t start server, caused by above problem");
-  });
+  });*/
