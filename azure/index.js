@@ -9,10 +9,6 @@ var dataBase = null;
 var ownerCommands = [];
 var visitorRequests = [];
 
-app.get("/", function(req, res) {
-  res.send("main");
-});
-
 app.get("/azure/owner", function(req, res) {
   if (visitorRequests.length > 0) {
     res.send(visitorRequests);
@@ -64,7 +60,7 @@ app.post("/azure/visitor", function(req, res) {
   res.send(response);
 });
 
-/*function testInsert() {
+function testInsert() {
   var collection = dataBase.collection("devices");
   collection
     .findOne({ name: "test" })
@@ -84,16 +80,17 @@ app.post("/azure/visitor", function(req, res) {
     .catch(function(err) {
       console.log(err);
     });
-}*/
+}
 
 app.listen(port, function() {
-  console.log("Example app listening on port " + port + "!!");
+  dataBase = db;
+  console.log("Example app listening on port " + port + "!");
 });
-/*connectMongoDB()
+connectMongoDB()
   .then(function(db) {
     testInsert();
   })
   .catch(function(err) {
     console.log(err);
     console.log("Couldn´t start server, caused by above problem");
-  });*/
+  });
