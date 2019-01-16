@@ -4,7 +4,6 @@ var express = require("express");
 var app = express();
 app.use(require("body-parser").json());
 var connectMongoDB = require("./database.js").connectMongoDB;
-var dataBase = null;
 
 var ownerCommands = [];
 var visitorRequests = [];
@@ -60,8 +59,10 @@ app.post("/azure/visitor", function(req, res) {
   res.send(response);
 });
 
-function testInsert() {
-  var collection = dataBase.collection("devices");
+function testInsert(client) {
+  var db = client.db("keyless");
+  console.log(db);
+  var collection = db.collection("devices");
   collection
     .findOne({ name: "test" })
     .then(function(res, rej) {
@@ -76,18 +77,19 @@ function testInsert() {
           console.log(res);
         });
       }
+      client.close();
     })
     .catch(function(err) {
       console.log(err);
+      client.close();
     });
 }
 
 connectMongoDB()
-  .then(function(db) {
+  .then(function(client) {
     app.listen(port, function() {
-      dataBase = db;
       console.log("Example app listening on port " + port + "!");
-      testInsert();
+      testInsert(client);
     });
   })
   .catch(function(err) {

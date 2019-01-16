@@ -9,7 +9,7 @@ function connectMongoDB() {
       function(err, client) {
         if (err) rej(err);
         console.log("Connected to MongoDB!");
-        res(client.db("keyless"));
+        res(client);
       }
     );
   });
