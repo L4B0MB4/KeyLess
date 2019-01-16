@@ -9,6 +9,10 @@ var dataBase = null;
 var ownerCommands = [];
 var visitorRequests = [];
 
+app.get("/", function(req, res) {
+  res.send("main");
+});
+
 app.get("/azure/owner", function(req, res) {
   if (visitorRequests.length > 0) {
     res.send(visitorRequests);
