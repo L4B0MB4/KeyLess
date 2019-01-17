@@ -3,6 +3,7 @@ var port = process.env.PORT || 8080;
 var express = require("express");
 var app = express();
 app.use(require("body-parser").json());
+var DB = require("./database.js");
 
 var ownerCommands = [];
 var visitorRequests = [];
@@ -58,7 +59,16 @@ app.post("/azure/visitor", function(req, res) {
   res.send(response);
 });
 
-app.listen(port, function() {
-  console.log("Example app listening on port " + port + "!");
-  testInsert(client);
-});
+DB.connectMongoDB()
+  .then(function(client) {
+    DB.testInsert(client);
+    app.listen(port, function() {
+      console.log("Example app listening on port " + port + "!");
+    });
+    process.on("exit", function() {
+      client.close();
+    });
+  })
+  .catch(function(err) {
+    console.errror(err);
+  });

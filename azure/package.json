@@ -6,7 +6,7 @@
   "license": "MIT",
   "author": "L4B0MB4",
   "scripts": {
-    "start": "node index.js"
+    "start": "npm install && node index.js"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
