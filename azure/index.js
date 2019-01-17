@@ -4,6 +4,7 @@ var express = require("express");
 var app = express();
 app.use(require("body-parser").json());
 var DB = require("./database.js");
+var dbClient = null;
 
 var ownerCommands = [];
 var visitorRequests = [];
@@ -59,9 +60,19 @@ app.post("/azure/visitor", function(req, res) {
   res.send(response);
 });
 
+app.get("/azure/insert", function(req, res) {
+  DB.testInsert(dbClient)
+    .then(function(val) {
+      res.send(val);
+    })
+    .catch(function(err) {
+      res.send(err);
+    });
+});
+
 DB.connectMongoDB()
   .then(function(client) {
-    DB.testInsert(client);
+    dbClient = client;
     app.listen(port, function() {
       console.log("Example app listening on port " + port + "!");
     });

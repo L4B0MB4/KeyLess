@@ -16,27 +16,26 @@ exports.connectMongoDB = function() {
 };
 
 exports.testInsert = function(client) {
-  var db = client.db("keyless");
-  console.log(db);
-  var collection = db.collection("devices");
-  collection
-    .findOne({ name: "test" })
-    .then(function(res, rej) {
-      if (res) {
-        console.log(res);
-      } else {
-        collection.insertOne({ name: "test", password: "test" }, function(err, res) {
-          if (err) {
-            console.log(err);
-            return;
-          }
-          console.log(res);
-        });
-      }
-      client.close();
-    })
-    .catch(function(err) {
-      console.log(err);
-      client.close();
-    });
+  return new Promise(function(mainRes, mainRej) {
+    var db = client.db("keyless");
+    var collection = db.collection("devices");
+    collection
+      .findOne({ name: "test" })
+      .then(function(res, rej) {
+        if (res) {
+          mainRej(res);
+        } else {
+          collection.insertOne({ name: "test", password: "test" }, function(err, res) {
+            if (err) {
+              mainRej(err);
+              return;
+            }
+            mainRes(res);
+          });
+        }
+      })
+      .catch(function(err) {
+        mainRej(err);
+      });
+  });
 };
