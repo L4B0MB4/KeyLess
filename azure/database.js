@@ -15,4 +15,30 @@ function connectMongoDB() {
   });
 }
 
+function testInsert(client) {
+  var db = client.db("keyless");
+  console.log(db);
+  var collection = db.collection("devices");
+  collection
+    .findOne({ name: "test" })
+    .then(function(res, rej) {
+      if (res) {
+        console.log(res);
+      } else {
+        collection.insertOne({ name: "test", password: "test" }, function(err, res) {
+          if (err) {
+            console.log(err);
+            return;
+          }
+          console.log(res);
+        });
+      }
+      client.close();
+    })
+    .catch(function(err) {
+      console.log(err);
+      client.close();
+    });
+}
+
 module.exports = { connectMongoDB };
