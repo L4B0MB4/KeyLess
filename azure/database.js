@@ -1,7 +1,7 @@
 var mongoClient = require("mongodb").MongoClient;
 
 var url = process.env.MONGODB || "mongodb://localhost:27017";
-exports.connectMongoDB = function() {
+connectMongoDB = () => {
   return new Promise(function(res, rej) {
     mongoClient.connect(
       url,
@@ -15,7 +15,7 @@ exports.connectMongoDB = function() {
   });
 };
 
-exports.testInsert = function(client) {
+testInsert = client => {
   return new Promise(function(mainRes, mainRej) {
     var db = client.db("keyless");
     var collection = db.collection("devices");
@@ -39,3 +39,14 @@ exports.testInsert = function(client) {
       });
   });
 };
+
+checkAuth = (client, auth) => {
+  return new Promise(async mainRes => {
+    var db = client.db("keyless");
+    var collection = db.collection("authentication");
+    const res = await collection.findOne({ auth });
+    mainRes(res);
+  });
+};
+
+module.exports = { connectMongoDB, testInsert, checkAuth };
