@@ -5,7 +5,7 @@ This is a university project with the goal of opening doors with the help of BLE
 ## Todo:
 
 - [ ] App zur API connecten und Befehle geben @isabelsta
-- [ ] CosmosDB anbinden + Authentifizierung hinzufügen @L4B0MB4
+- [x] CosmosDB anbinden + Authentifizierung hinzufügen @L4B0MB4
 - [ ] API-Definition für Serveranfragen (auch dokumentieren) @isabelsta
 - [ ] Anfragen-Konzept niederschreiben @beide
 - [ ] Raspberry Pi Klingel (Lautsprecher + Mikrofon + Taster bestellen @L4B0MB4) @isabelsta --> Kommunikation über Wlan mit anderem Pi (@beide)
