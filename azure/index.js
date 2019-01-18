@@ -22,6 +22,7 @@ DB.connectMongoDB()
           return next();
         }
       }
+      res.send("Not authenticated");
       next("Not authenticated");
     };
 
