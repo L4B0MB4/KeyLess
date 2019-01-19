@@ -1,6 +1,6 @@
 {
   "name": "worker",
-  "script": "./server/index.js",
+  "script": "cd ./azure/ && npm -- start",
   "instances": 1,
   "merge_logs": true,
   "log_date_format": "YYYY-MM-DD HH:mm Z",
