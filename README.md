@@ -3,8 +3,12 @@
 This is a university project with the goal of opening doors with the help of BLE Beacons + Raspberry Pi + Ardunio
 
 ## Todo:
-- [ ] App-Komponenten bilden und an Wiederverwendbarkeit denken @L4B0MB4
-- [ ] Beacon auswählen in seperatem Screen, anstatt hardcoded @isabelsta
-- [ ] Protocol testen und verbessern @L4B0MB4
-- [ ] Diagramm überarbeiten @isabelsta
-- [ ] AWS Account und Produkte vergleichen --> verschieb um eine woche
+
+- [ ] App zur API connecten und Befehle geben @isabelsta
+- [ ] CosmosDB anbinden + Authentifizierung hinzufügen @L4B0MB4
+- [ ] API-Definition für Serveranfragen (auch dokumentieren) @isabelsta
+- [ ] Anfragen-Konzept niederschreiben @beide
+- [ ] Raspberry Pi Klingel (Lautsprecher + Mikrofon + Taster bestellen @L4B0MB4) @isabelsta --> Kommunikation über Wlan mit anderem Pi (@beide)
+- [ ] Türschloss anschließen an Arduino @L4B0MB4
+- [ ] App Audio abspielen und Anzeigen @isabelsta
+- [ ] App Design improve @isabelsta

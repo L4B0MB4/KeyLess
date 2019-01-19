@@ -19,9 +19,8 @@ void loop()
 {
   digitalWrite(ledPin, prot.ledOn);
   prot.SendAlive();
-  prot.CheckAlive();
   prot.HandleRead();
-  checkButtonPress();
+  //checkButtonPress();
 }
 
 void checkButtonPress()

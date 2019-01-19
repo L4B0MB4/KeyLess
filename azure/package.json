@@ -1,0 +1,16 @@
+{
+  "name": "key-less-api",
+  "description": "KeyLessAPI",
+  "version": "0.0.1",
+  "private": true,
+  "license": "MIT",
+  "author": "L4B0MB4",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "mongodb": "^3.1.11"
+  }
+}
