@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { TouchableOpacity, Text, View, StyleSheet } from "react-native";
+import { TouchableOpacity, Text, View, StyleSheet, Button } from "react-native";
 import { Actions } from "react-native-router-flux";
 import { startBeaconScanning } from "./Beacon";
 
@@ -8,17 +8,49 @@ export default class Home extends Component {
     super(props);
     this.state = {
       buttonPressed: "",
-      url: "192.168.0.107:8080"
+      url: "https://keyless.azurewebsites.net/azure"
     };
+
+    this.fetchThis();
   }
 
-  fetchThis = async route => {
+  fetchThis() {
     try {
-      const response = await fetch("http://" + this.state.url + route);
+      const response = fetch(this.state.url);
+      console.log("website izz daaa");
     } catch (ex) {
       console.log("ERROR: " + ex);
     }
   };
+
+  openDoorVisitor() {
+      try {
+      fetch(this.state.url + '/visitor', {  
+        method: 'POST',
+        body: JSON.stringify({
+          opendoor: 'true',
+          person: 'visitor',
+        })
+      })
+    } catch(ex){
+      console.log("ERROR: " + ex);
+    }
+  }
+
+  openDoorOwner() {
+      try {
+      fetch(this.state.url + '/owner', {  
+        method: 'POST',
+        body: JSON.stringify({
+          opendoor: 'true',
+          person: 'owner',
+          beacon: 'doorBeacon'
+        })
+      })
+    } catch(ex){
+      console.log("ERROR: " + ex);
+    }
+  }
 
   goToBeaconScreen = () => {
     Actions.beacons();
@@ -28,6 +60,7 @@ export default class Home extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.header}>Smarte Haustüröffnung</Text>
+        <Button onPress={this.openDoorVisitor} title="Öffne deinem Besucher die Tür" />
         <TouchableOpacity style={{ margin: 128 }} onPress={this.goToBeaconScreen}>
           <Text>Go To Beacon Screen</Text>
         </TouchableOpacity>
