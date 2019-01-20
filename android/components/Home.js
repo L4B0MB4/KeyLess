@@ -15,25 +15,40 @@ export default class Home extends Component {
   }
 
   fetchThis() {
-    try {
-      const response = fetch(this.state.url);
-      console.log("website izz daaa");
-    } catch (ex) {
-      console.log("ERROR: " + ex);
-    }
-  };
+    const response = fetch(this.state.url)
+      .then(function(res) {
+        console.log("website izz daaa");
+        console.log(res);
+      })
+      .catch(function(err) {
+        console.log(err);
+      });
+  }
 
   openDoorVisitor() {
-      try {
-      const response = fetch("https://keyless.azurewebsites.net/azure/visitor?auth=123", {  
-        method: 'POST',
-        body: JSON({
-          "command": "open-door",
-	        "for": "visitor"
+    try {
+      console.log("FETCHING");
+      const res = fetch("https://keyless.azurewebsites.net/azure/visitor?auth=123", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          request: "open-door",
+          sender: "androidID",
+          beacon: "beacon-adress"
         })
-      });
-    } catch(ex){
-      console.log("ERROR: " + ex);
+      })
+        .then(function(response) {
+          console.log(response);
+        })
+        .catch(function(err) {
+          console.log("ERROR:" + err);
+        });
+      console.log(res);
+    } catch (ex) {
+      console.log("ERRORCATCH: " + ex);
     }
   }
 
@@ -44,7 +59,7 @@ export default class Home extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.header}>Smarte Haustüröffnung</Text>
+        <Text style={styles.header}>Smarte Haustüröffnung!</Text>
         <Button onPress={this.openDoorVisitor} title="Öffne deinem Besucher die Tür" />
         <TouchableOpacity style={{ margin: 128 }} onPress={this.goToBeaconScreen}>
           <Text>Go To Beacon Screen</Text>
