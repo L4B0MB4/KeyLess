@@ -11,7 +11,7 @@ export default class Home extends Component {
       url: "https://keyless.azurewebsites.net/azure"
     };
 
-    this.fetchThis();
+    //this.fetchThis();
   }
 
   fetchThis() {
@@ -25,28 +25,13 @@ export default class Home extends Component {
 
   openDoorVisitor() {
       try {
-      fetch(this.state.url + '/visitor', {  
+      const response = fetch("https://keyless.azurewebsites.net/azure/visitor?auth=123", {  
         method: 'POST',
-        body: JSON.stringify({
-          opendoor: 'true',
-          person: 'visitor',
+        body: JSON({
+          "command": "open-door",
+	        "for": "visitor"
         })
-      })
-    } catch(ex){
-      console.log("ERROR: " + ex);
-    }
-  }
-
-  openDoorOwner() {
-      try {
-      fetch(this.state.url + '/owner', {  
-        method: 'POST',
-        body: JSON.stringify({
-          opendoor: 'true',
-          person: 'owner',
-          beacon: 'doorBeacon'
-        })
-      })
+      });
     } catch(ex){
       console.log("ERROR: " + ex);
     }

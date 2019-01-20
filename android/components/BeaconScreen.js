@@ -13,6 +13,21 @@ export default class Beacon extends Component {
     startBeaconScanning(this.eddystoneAppeared, this.eddystoneDisappeared, this.beaconAppeared, this.beaconDisappeared);
   }
 
+  openDoorOwner() {
+      try {
+      fetch("https://keyless.azurewebsites.net/azure/owner?auth=123", {  
+        method: 'POST',
+        body: JSON.stringify({
+          "request":"open-door",
+	        "sender":"android",
+	        "beacon":"beacon-adress"
+        })
+      })
+    } catch(ex){
+      console.log("ERROR: " + ex);
+    }
+  }
+
   eddystoneAppeared = eddystone => {
     this.setState({
       beacon_list: this.state.beacon_list.concat(eddystone)
