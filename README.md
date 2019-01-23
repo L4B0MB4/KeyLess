@@ -4,7 +4,7 @@ This is a university project with the goal of opening doors with the help of BLE
 
 ## Todo:
 
-- [ ] App zur API connecten und Befehle geben @isabelsta
+- [x] App zur API connecten und Befehle geben @isabelsta
 - [x] CosmosDB anbinden + Authentifizierung hinzufügen @L4B0MB4
 - [ ] API-Definition für Serveranfragen (auch dokumentieren) @isabelsta
 - [ ] Anfragen-Konzept niederschreiben @beide
