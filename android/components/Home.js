@@ -25,13 +25,13 @@ export default class Home extends Component {
 
   openDoorVisitor() {
       try {
-      const response = fetch("https://keyless.azurewebsites.net/azure/visitor?auth=123", {  
+      const anfrage = fetch("https://keyless.azurewebsites.net/azure/visitor?auth=123", {  
         method: 'POST',
-        body: JSON({
-          "command": "open-door",
-	        "for": "visitor"
+        body: JSON.stringify({
+          command: "open-door",
+	        for: "visitor"
         })
-      });
+      }).then((response) => console.log(response));
     } catch(ex){
       console.log("ERROR: " + ex);
     }
