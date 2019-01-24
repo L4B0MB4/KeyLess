@@ -49,12 +49,11 @@ export default class Home extends Component {
       console.log(res);
     } catch (ex) {
       console.log("ERRORCATCH: " + ex);
->>>>>>> 730e543c00a054b97cb08d82128d0894c4ab0bc2
     }
   }
 
-  goToBeaconScreen = () => {
-    Actions.beacons();
+  goTo = route => {
+    Actions[route]();
   };
 
   render() {
@@ -62,8 +61,11 @@ export default class Home extends Component {
       <View style={styles.container}>
         <Text style={styles.header}>Smarte Haustüröffnung!</Text>
         <Button onPress={this.openDoorVisitor} title="Öffne deinem Besucher die Tür" />
-        <TouchableOpacity style={{ margin: 128 }} onPress={this.goToBeaconScreen}>
-          <Text>Go To Beacon Screen</Text>
+        <TouchableOpacity onPress={() => this.goTo("beacons")}>
+          <Text>Go To Beacon Screen!!!</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => this.goTo("audio")}>
+          <Text>Go To Audio Screen!!!</Text>
         </TouchableOpacity>
       </View>
     );
