@@ -12,7 +12,7 @@ This is a university project with the goal of opening doors with the help of BLE
 - [ ] Raspberry Pi Klingel @isabelsta (Part 1 - Audio Aufnehmen ist eingechecked auf branch b)
 - [ ] Pi Kommunikation über Wlan mit anderem Pi (@L4B0MB4)
 - [ ] Türschloss anschließen an Arduino @L4B0MB4
-- [ ] App Audio abspielen und Anzeigen @L4B0MB4
+- [x] App Audio abspielen und Anzeigen @L4B0MB4
 - [ ] App Design improve @isabelsta Prio:minor
 - [x] Toni schreiben @isabelsta
 - [ ] Komplexe Gegensprechanlage -> niederschreiben
