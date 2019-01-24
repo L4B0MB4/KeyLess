@@ -14,7 +14,9 @@ const ownerCommands = [];
 const visitorRequests = [];
 
 DB.connectMongoDB()
-  .then(function(client) {
+  .then(async function(client) {
+    await DB.loadCommands(client, ownerCommands, visitorRequests);
+
     authenticate = async (req, res, next) => {
       if (req.query.auth) {
         const res = DB.checkAuth(client, req.query.auth);
@@ -43,12 +45,16 @@ DB.connectMongoDB()
   }
  */
 
-    app.post("/azure/owner", (req, res) => {
+    app.post("/azure/owner", async (req, res) => {
       const body = req.body;
-      const response = { sucess: false };
+      const response = { success: false };
       if (body.command === "open-door") {
+        console.log(body);
+        const insertRes = await DB.insertInto(dbClient, "owner", body);
         ownerCommands.push(body);
-        response.sucess = true;
+        console.log(insertRes);
+        response.success = insertRes.success == true;
+        console.log(response);
       }
       res.send(response);
     });
@@ -69,24 +75,15 @@ DB.connectMongoDB()
   }
  */
 
-    app.post("/azure/visitor", (req, res) => {
+    app.post("/azure/visitor", async (req, res) => {
       const body = req.body;
-      const response = { sucess: false };
+      const response = { success: false };
       if (body.request === "open-door") {
+        const insertRes = await DB.insertInto(dbClient, "visitor", body);
         visitorRequests.push(body);
-        response.sucess = true;
+        response.success = insertRes.success === true;
       }
       res.send(response);
-    });
-
-    app.get("/azure/insert", (req, res) => {
-      DB.testInsert(dbClient)
-        .then(function(val) {
-          res.send(val);
-        })
-        .catch(function(err) {
-          res.send(err);
-        });
     });
 
     dbClient = client;
