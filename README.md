@@ -8,7 +8,7 @@ This is a university project with the goal of opening doors with the help of BLE
 - [x] CosmosDB anbinden + Authentifizierung hinzufügen @L4B0MB4
 - [x] Anfragen in CosmosDB speichern @L4B0MB4
 - [x] API-Definition für Serveranfragen (auch dokumentieren) @isabelsta
-- [ ] Anfragen-Konzept niederschreiben (Visuell @L4B0MB4 und Schriftlich @isabelsta)
+- [x] Anfragen-Konzept niederschreiben (Visuell @L4B0MB4 und Schriftlich @isabelsta)
 - [ ] Raspberry Pi Klingel @isabelsta (Part 1 - Audio Aufnehmen ist eingechecked auf branch b)
 - [ ] Pi Kommunikation über Wlan mit anderem Pi (@L4B0MB4)
 - [ ] Türschloss anschließen an Arduino @L4B0MB4
