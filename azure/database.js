@@ -40,7 +40,7 @@ insertInto = (client, collectionName, data) => {
   });
 };
 
-loadCommands = async (client, owner, visitor) => {
+loadCommandsAndRequests = async (client, owner, visitor) => {
   const db = client.db(DATABASE);
   let collection = db.collection("owner");
   const resOwner = await collection.find().toArray();
@@ -49,4 +49,4 @@ loadCommands = async (client, owner, visitor) => {
   owner.push(...resOwner);
   visitor.push(...resVisitor);
 };
-module.exports = { connectMongoDB, insertInto, checkAuth, loadCommands };
+module.exports = { connectMongoDB, insertInto, checkAuth, loadCommandsAndRequests };

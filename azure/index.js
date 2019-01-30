@@ -15,7 +15,7 @@ const visitorRequests = [];
 
 DB.connectMongoDB()
   .then(async function(client) {
-    await DB.loadCommands(client, ownerCommands, visitorRequests);
+    await DB.loadCommandsAndRequests(client, ownerCommands, visitorRequests);
 
     authenticate = async (req, res, next) => {
       if (req.query.auth) {
@@ -30,7 +30,7 @@ DB.connectMongoDB()
 
     app.use(authenticate);
 
-    app.get("/azure/owner", authenticate, (req, res) => {
+    app.get("/azure/owner", (req, res) => {
       if (visitorRequests.length > 0) {
         res.send(visitorRequests);
       } else {
