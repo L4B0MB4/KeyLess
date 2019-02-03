@@ -4,23 +4,19 @@ const DATABASE = "keyless";
 var url = process.env.MONGODB || "mongodb://localhost:27017";
 connectMongoDB = () => {
   return new Promise(function(res, rej) {
-    mongoClient.connect(
-      url,
-      { useNewUrlParser: true },
-      function(err, client) {
-        if (err) rej(err);
-        console.log("Connected to MongoDB!");
-        res(client);
-      }
-    );
+    mongoClient.connect(url, { useNewUrlParser: true }, function(err, client) {
+      if (err) rej(err);
+      console.log("Connected to MongoDB!");
+      res(client);
+    });
   });
 };
 
-checkAuth = (client, auth) => {
+checkAuth = (client, auth, device) => {
   return new Promise(async mainRes => {
     var db = client.db(DATABASE);
-    var collection = db.collection("authentication");
-    const res = await collection.findOne({ auth });
+    var collection = db.collection("device");
+    const res = await collection.findOne({ auth, device });
     mainRes(res);
   });
 };
