@@ -67,7 +67,7 @@ DB.connectMongoDB()
       const body = req.body;
       const response = { success: false };
       if (body.request === "register") {
-        if ((body.device === "beacon" && body.beacon) || (body.device !== "beacon" && !body.beacon && body.auth && req.query.auth > 8)) {
+        if (((body.device === "beacon" && body.beacon) || (body.device !== "beacon" && !body.beacon)) && req.query.auth && req.query.auth.length > 8) {
           const device = {
             id: createId(),
             auth: req.query.auth,
