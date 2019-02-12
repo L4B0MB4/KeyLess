@@ -14,7 +14,9 @@ const ownerCommands = [];
 const visitorRequests = [];
 
 DB.connectMongoDB()
-  .then(function(client) {
+  .then(async function(client) {
+    await DB.loadCommandsAndRequests(client, ownerCommands, visitorRequests);
+
     authenticate = async (req, res, next) => {
       if (req.query.auth) {
         const res = DB.checkAuth(client, req.query.auth);
@@ -28,9 +30,10 @@ DB.connectMongoDB()
 
     app.use(authenticate);
 
-    app.get("/azure/owner", authenticate, (req, res) => {
+    app.get("/azure/owner", (req, res) => {
       if (visitorRequests.length > 0) {
-        res.send(visitorRequests);
+        const foundRequests = visitorRequests.find(item => item.auth == req.query.auth);
+        res.send(foundRequests);
       } else {
         res.send({ success: false });
       }
@@ -39,23 +42,26 @@ DB.connectMongoDB()
     /*
   Format=> {
 	"command":"open-door",
-	"for":"beacon"
+  "for":"beacon"
   }
  */
 
-    app.post("/azure/owner", (req, res) => {
+    app.post("/azure/owner", async (req, res) => {
       const body = req.body;
-      const response = { sucess: false };
+      const response = { success: false };
       if (body.command === "open-door") {
+        body.auth = req.query.auth;
+        const insertRes = await DB.insertInto(dbClient, "owner", body);
         ownerCommands.push(body);
-        response.sucess = true;
+        response.success = insertRes.success == true;
       }
       res.send(response);
     });
 
     app.get("/azure/visitor", (req, res) => {
       if (ownerCommands.length > 0) {
-        res.send(ownerCommands);
+        const foundCommands = ownerCommands.find(item => item.auth == req.query.auth);
+        res.send(foundCommands);
       } else {
         res.send({ success: false });
       }
@@ -69,24 +75,16 @@ DB.connectMongoDB()
   }
  */
 
-    app.post("/azure/visitor", (req, res) => {
+    app.post("/azure/visitor", async (req, res) => {
       const body = req.body;
-      const response = { sucess: false };
+      const response = { success: false };
       if (body.request === "open-door") {
+        body.auth = req.query.auth;
+        const insertRes = await DB.insertInto(dbClient, "visitor", body);
         visitorRequests.push(body);
-        response.sucess = true;
+        response.success = insertRes.success === true;
       }
       res.send(response);
-    });
-
-    app.get("/azure/insert", (req, res) => {
-      DB.testInsert(dbClient)
-        .then(function(val) {
-          res.send(val);
-        })
-        .catch(function(err) {
-          res.send(err);
-        });
     });
 
     dbClient = client;
