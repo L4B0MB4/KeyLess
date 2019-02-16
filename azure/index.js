@@ -42,12 +42,13 @@ DB.connectMongoDB()
         ) {
           const device = {
             id: createId(),
-            auth: createId().toUpperCase(),
+            auth: body.auth || createId().toUpperCase(),
             beacon: body.beacon,
             device: body.device
           };
           const insertRes = await DB.insertInto(dbClient, "devices", device);
           response.success = insertRes.success === true;
+          response.device = device;
         }
       }
       res.send(response);
