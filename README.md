@@ -4,11 +4,14 @@ This is a university project with the goal of opening doors with the help of BLE
 
 ## Todo:
 
-- [ ] App zur API connecten und Befehle geben @isabelsta
-- [ ] CosmosDB anbinden + Authentifizierung hinzufügen @L4B0MB4
-- [ ] API-Definition für Serveranfragen (auch dokumentieren) @isabelsta
-- [ ] Anfragen-Konzept niederschreiben @beide
-- [ ] Raspberry Pi Klingel (Lautsprecher + Mikrofon + Taster bestellen @L4B0MB4) @isabelsta --> Kommunikation über Wlan mit anderem Pi (@beide)
+- [ ] Raspberry Pi Klingel Api Request @isabelsta in gleiches Skript wie Audio Aufnahme
+- [ ] Raspberry Pi Audio abspielen @isabelsta in gleiches Skript wie Audio Aufnahme
+- [ ] Pi Kommunikation über Wlan mit anderem Pi (@L4B0MB4)
+- [ ] Device anmelden auf Server @L4B0MB4
+- [ ] Device Authentication auf Server @L4B0MB4
+- [ ] React Native neu initialisieren @L4B0MB4
+- [ ] Beacon-Firma anrufen @isabelsta
 - [ ] Türschloss anschließen an Arduino @L4B0MB4
-- [ ] App Audio abspielen und Anzeigen @isabelsta
-- [ ] App Design improve @isabelsta
+- [ ] App Design improve @isabelsta Prio:minor
+- [ ] Komplexe Gegensprechanlage -> niederschreiben
+- [ ] Anfangen mit Umsetzung -> niederschreiben
