@@ -23,6 +23,7 @@ function createId() {
 
 DB.connectMongoDB()
   .then(async function(client) {
+    console.log("DB connected");
     await DB.loadCommandsAndRequests(client, ownerCommands, visitorRequests);
 
     /*
