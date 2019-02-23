@@ -21,7 +21,7 @@ RECORD_SECONDS = 5
 nchunks = int(RECORD_SECONDS * FRAME_RATE / FRAMES_PERBUFF)
 for i in range(0, nchunks):
     try:
-        data = stream.read(FRAMES_PERBUFF)
+        data = stream.read(FRAMES_PERBUFF,exception_on_overflow = False))
         frames.append(data) # 2 bytes(16 bits) per channel
     except IOError as ex:
         print(ex);
