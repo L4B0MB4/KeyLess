@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { TouchableOpacity, Text, View, StyleSheet, Button } from "react-native";
 import { Actions } from "react-native-router-flux";
 import { startBeaconScanning } from "./Beacon";
+import DeviceInfo from "react-native-device-info";
+const IP = "192.168.0.102:8080";
 
 export default class Home extends Component {
   constructor(props) {
@@ -10,20 +12,28 @@ export default class Home extends Component {
       buttonPressed: "",
       url: "https://keyless.azurewebsites.net/azure"
     };
-
-    //this.fetchThis();
   }
 
-  fetchThis() {
-    const response = fetch(this.state.url)
-      .then(function(res) {
-        console.log("website izz daaa");
-        console.log(res);
-      })
-      .catch(function(err) {
-        console.log(err);
+  newPhone = async () => {
+    try {
+      let response = await fetch("http://" + IP + "/azure/device", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          request: "register",
+          device: "phone",
+          auth: DeviceInfo.getUniqueID()
+        })
       });
-  }
+      let responseJson = await response.json();
+      console.log(responseJson);
+    } catch (ex) {
+      console.log("ERROR: " + ex);
+    }
+  };
 
   openDoorVisitor() {
     try {
@@ -60,13 +70,22 @@ export default class Home extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.header}>Smarte Haustüröffnung!</Text>
+        <Text>Your ID: {DeviceInfo.getUniqueID()}. Everything should be registered to it</Text>
         <Button onPress={this.openDoorVisitor} title="Öffne deinem Besucher die Tür" />
         <TouchableOpacity onPress={() => this.goTo("beacons")}>
           <Text>Go To Beacon Screen!!!</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => this.goTo("requests")}>
-          <Text>Go To Requests Screen!!!</Text>
+          <Text>
+            Go To Requests Screen!!!{"\n"}
+            {"\n"}
+            {"\n"}
+            {"\n"}
+            {"\n"}
+            {"\n"}
+          </Text>
         </TouchableOpacity>
+        <Button onPress={this.newPhone} title="First time using this app" />
       </View>
     );
   }

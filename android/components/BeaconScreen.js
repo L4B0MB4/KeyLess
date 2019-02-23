@@ -14,16 +14,16 @@ export default class Beacon extends Component {
   }
 
   openDoorOwner() {
-      try {
-      fetch("https://keyless.azurewebsites.net/azure/owner?auth=123", {  
-        method: 'POST',
+    try {
+      fetch("https://keyless.azurewebsites.net/azure/owner?auth=123", {
+        method: "POST",
         body: JSON.stringify({
-          "request":"open-door",
-	        "sender":"android",
-	        "beacon":"beacon-adress"
+          request: "open-door",
+          sender: "android",
+          beacon: "beacon-adress"
         })
-      })
-    } catch(ex){
+      });
+    } catch (ex) {
       console.log("ERROR: " + ex);
     }
   }
@@ -77,10 +77,10 @@ export default class Beacon extends Component {
   _renderBeacons = () => {
     return (
       <View>
-        <Picker onValueChange={itemValue => this.setState({ selected_beacon: itemValue })}>
+        <Picker onValueChange={itemValue => this.setState({ selected_beacon: itemValue })} selectedValue={this.state.selected_beacon}>
           {this.state.beacon_list.map(
             (beacon, ind) => (
-              <Picker.Item label={beacon.name} value={beacon.name} />
+              <Picker.Item label={beacon.name || "No name"} key={beacon.address} value={(beacon.name || "No name") + beacon.address} />
             ),
             this
           )}

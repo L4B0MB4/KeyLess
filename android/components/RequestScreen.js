@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { TouchableOpacity, Text, View, Button, Picker } from "react-native";
+import DeviceInfo from "react-native-device-info";
 const IP = "192.168.0.102:8080";
 
 export default class RequestScreen extends Component {
@@ -8,7 +9,7 @@ export default class RequestScreen extends Component {
     this.state = { requests: [] };
   }
 
-  auth = "811D626D-6D25-464C-9501-57592983F0B8";
+  auth = DeviceInfo.getUniqueID();
   interValSet = false;
 
   openDoorOwner = async () => {
