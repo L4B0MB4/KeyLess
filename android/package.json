@@ -1,5 +1,5 @@
 {
-  "name": "AwesomeProjekt",
+  "name": "KeyLessApp",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -7,7 +7,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "react": "16.6.0-alpha.8af6728",
+    "react": "16.6.0",
     "react-native": "0.57.4",
     "react-native-beacons-manager": "^1.0.7",
     "react-native-kontaktio": "^2.1.0",
@@ -19,7 +19,7 @@
     "babel-jest": "23.6.0",
     "jest": "23.6.0",
     "metro-react-native-babel-preset": "0.48.3",
-    "react-test-renderer": "16.6.0-alpha.8af6728"
+    "react-test-renderer": "16.6.0"
   },
   "jest": {
     "preset": "react-native"
