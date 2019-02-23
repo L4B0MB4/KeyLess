@@ -45,4 +45,9 @@ loadCommandsAndRequests = async (client, owner, visitor) => {
   owner.push(...resOwner);
   visitor.push(...resVisitor);
 };
-module.exports = { connectMongoDB, insertInto, checkAuth, loadCommandsAndRequests };
+module.exports = {
+  connectMongoDB,
+  insertInto,
+  checkAuth,
+  loadCommandsAndRequests
+};

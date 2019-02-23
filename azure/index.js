@@ -13,9 +13,47 @@ let dbClient = null;
 const ownerCommands = [];
 const visitorRequests = [];
 
+function createId() {
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c) {
+    var r = (Math.random() * 16) | 0,
+      v = c == "x" ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+}
+
 DB.connectMongoDB()
   .then(async function(client) {
+    console.log("DB connected");
     await DB.loadCommandsAndRequests(client, ownerCommands, visitorRequests);
+
+    /*
+      Format=> {
+      "request":"register",
+      "device":"device e.g. android",
+      "beacon":"beacon-adress if beacon is device",
+      }
+    */
+    app.post("/azure/device", async (req, res) => {
+      const body = req.body;
+      const response = { success: false };
+      if (body.request === "register") {
+        if (
+          (body.device === "beacon" && body.beacon) ||
+          (body.device !== "beacon" && !body.beacon)
+        ) {
+          const device = {
+            id: createId(),
+            auth: body.auth || createId().toUpperCase(),
+            beacon: body.beacon,
+            device: body.device
+          };
+          const insertRes = await DB.insertInto(dbClient, "devices", device);
+          response.success = insertRes.success === true;
+          response.device = device;
+        }
+      }
+      res.send(response);
+    });
 
     authenticate = async (req, res, next) => {
       if (req.query.auth) {
@@ -28,11 +66,33 @@ DB.connectMongoDB()
       next("Not authenticated");
     };
 
+    /*
+  Format=> {
+	"request":"open-door",
+	"sender":"device e.g. android",
+	"beacon":"beacon-adress"
+  }
+ */
+
+    app.post("/azure/visitor", async (req, res) => {
+      const body = req.body;
+      const response = { success: false };
+      if (body.request === "open-door") {
+        body.auth = req.query.auth;
+        const insertRes = await DB.insertInto(dbClient, "visitor", body);
+        visitorRequests.push(body);
+        response.success = insertRes.success === true;
+      }
+      res.send(response);
+    });
+
     app.use(authenticate);
 
     app.get("/azure/owner", (req, res) => {
       if (visitorRequests.length > 0) {
-        const foundRequests = visitorRequests.find(item => item.auth == req.query.auth);
+        const foundRequests = visitorRequests.find(
+          item => item.auth == req.query.auth
+        );
         res.send(foundRequests);
       } else {
         res.send({ success: false });
@@ -60,31 +120,13 @@ DB.connectMongoDB()
 
     app.get("/azure/visitor", (req, res) => {
       if (ownerCommands.length > 0) {
-        const foundCommands = ownerCommands.find(item => item.auth == req.query.auth);
+        const foundCommands = ownerCommands.find(
+          item => item.auth == req.query.auth
+        );
         res.send(foundCommands);
       } else {
         res.send({ success: false });
       }
-    });
-
-    /*
-  Format=> {
-	"request":"open-door",
-	"sender":"device e.g. android",
-	"beacon":"beacon-adress"
-  }
- */
-
-    app.post("/azure/visitor", async (req, res) => {
-      const body = req.body;
-      const response = { success: false };
-      if (body.request === "open-door") {
-        body.auth = req.query.auth;
-        const insertRes = await DB.insertInto(dbClient, "visitor", body);
-        visitorRequests.push(body);
-        response.success = insertRes.success === true;
-      }
-      res.send(response);
     });
 
     dbClient = client;
