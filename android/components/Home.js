@@ -73,7 +73,18 @@ export default class Home extends Component {
         <Text>Your ID: {DeviceInfo.getUniqueID()}. Everything should be registered to it</Text>
         <Button onPress={this.openDoorVisitor} title="Öffne deinem Besucher die Tür" />
         <TouchableOpacity onPress={() => this.goTo("beacons")}>
-          <Text>Go To Beacon Screen!!!</Text>
+          <Text>
+            Go To Beacon Screen!!!
+            {"\n"}
+            {"\n"}
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => this.goTo("audio")}>
+          <Text>
+            Go To Audio Screen!!!
+            {"\n"}
+            {"\n"}
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => this.goTo("requests")}>
           <Text>

@@ -9,6 +9,7 @@ const app = express();
 const fileUpload = require("express-fileupload");
 app.use(require("body-parser").json());
 const DB = require("./database.js");
+const path = require("path");
 let dbClient = null;
 
 let ownerCommands = [];
@@ -75,6 +76,9 @@ DB.connectMongoDB()
 	"beacon":"beacon-adress"
   }
  */
+    app.get("/azure/visitor/:file", async (req, res) => {
+      res.sendFile(path.join(__dirname, "/upload/", req.params.file + ".wav"));
+    });
 
     app.use(authenticate);
 

@@ -16,7 +16,7 @@ export default class AudioSCreen extends Component {
   audio = () => {
     // Load the sound file 'whoosh.mp3' from the app bundle
     // See notes below about preloading sounds within initialization code below.
-    var sampleSound = new Sound("advertising.mp3", "https://raw.githubusercontent.com/zmxv/react-native-sound-demo/master/", error => {
+    var sampleSound = new Sound("", "http://192.168.0.102:8080/azure/visitor/fbb07eb472819449", error => {
       if (error) {
         console.log("failed to load the sound", error);
         return;
