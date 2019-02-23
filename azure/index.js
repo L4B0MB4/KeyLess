@@ -10,8 +10,8 @@ app.use(require("body-parser").json());
 const DB = require("./database.js");
 let dbClient = null;
 
-const ownerCommands = [];
-const visitorRequests = [];
+let ownerCommands = [];
+let visitorRequests = [];
 
 function createId() {
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c) {
@@ -37,10 +37,7 @@ DB.connectMongoDB()
       const body = req.body;
       const response = { success: false };
       if (body.request === "register") {
-        if (
-          (body.device === "beacon" && body.beacon) ||
-          (body.device !== "beacon" && !body.beacon)
-        ) {
+        if ((body.device === "beacon" && body.beacon) || (body.device !== "beacon" && !body.beacon)) {
           const device = {
             id: createId(),
             auth: body.auth || createId().toUpperCase(),
@@ -74,25 +71,29 @@ DB.connectMongoDB()
   }
  */
 
+    app.use(authenticate);
+
     app.post("/azure/visitor", async (req, res) => {
       const body = req.body;
       const response = { success: false };
+      const { auth } = req.query;
       if (body.request === "open-door") {
-        body.auth = req.query.auth;
+        body.auth = auth;
         const insertRes = await DB.insertInto(dbClient, "visitor", body);
         visitorRequests.push(body);
         response.success = insertRes.success === true;
+      } else if (body.request === "delete") {
+        visitorRequests = visitorRequests.filter(item => item.auth !== auth);
+        ownerCommands = ownerCommands.filter(item => item.auth !== auth);
+        DB.deleteByAuth(dbClient, "visitor", auth);
+        DB.deleteByAuth(dbClient, "owner", auth);
       }
       res.send(response);
     });
 
-    app.use(authenticate);
-
     app.get("/azure/owner", (req, res) => {
       if (visitorRequests.length > 0) {
-        const foundRequests = visitorRequests.find(
-          item => item.auth == req.query.auth
-        );
+        const foundRequests = visitorRequests.find(item => item.auth == req.query.auth);
         res.send(foundRequests);
       } else {
         res.send({ success: false });
@@ -109,6 +110,8 @@ DB.connectMongoDB()
     app.post("/azure/owner", async (req, res) => {
       const body = req.body;
       const response = { success: false };
+      console.log(body.command === "open-door");
+      console.log(body.command);
       if (body.command === "open-door") {
         body.auth = req.query.auth;
         const insertRes = await DB.insertInto(dbClient, "owner", body);
@@ -120,9 +123,7 @@ DB.connectMongoDB()
 
     app.get("/azure/visitor", (req, res) => {
       if (ownerCommands.length > 0) {
-        const foundCommands = ownerCommands.find(
-          item => item.auth == req.query.auth
-        );
+        const foundCommands = ownerCommands.find(item => item.auth == req.query.auth);
         res.send(foundCommands);
       } else {
         res.send({ success: false });

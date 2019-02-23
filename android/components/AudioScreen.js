@@ -25,7 +25,6 @@ export default class AudioSCreen extends Component {
       console.log("duration in seconds: " + sampleSound.getDuration() + "number of channels: " + sampleSound.getNumberOfChannels());
       // Play the sound with an onEnd callback
       sampleSound.setVolume(4);
-      sampleSound.setPan(1);
       sampleSound.play((success, err) => {
         if (success) {
           console.log("successfully finished playing");

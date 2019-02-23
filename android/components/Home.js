@@ -64,8 +64,8 @@ export default class Home extends Component {
         <TouchableOpacity onPress={() => this.goTo("beacons")}>
           <Text>Go To Beacon Screen!!!</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => this.goTo("audio")}>
-          <Text>Go To Audio Screen!!!</Text>
+        <TouchableOpacity onPress={() => this.goTo("requests")}>
+          <Text>Go To Requests Screen!!!</Text>
         </TouchableOpacity>
       </View>
     );

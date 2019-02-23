@@ -36,6 +36,15 @@ insertInto = (client, collectionName, data) => {
   });
 };
 
+deleteByAuth = (client, collectionName, auth) => {
+  return new Promise(async mainRes => {
+    var db = client.db(DATABASE);
+    var collection = db.collection(collectionName);
+    const res = await collection.deleteMany({ auth });
+    mainRes(res);
+  });
+};
+
 loadCommandsAndRequests = async (client, owner, visitor) => {
   const db = client.db(DATABASE);
   let collection = db.collection("owner");
@@ -49,5 +58,6 @@ module.exports = {
   connectMongoDB,
   insertInto,
   checkAuth,
-  loadCommandsAndRequests
+  loadCommandsAndRequests,
+  deleteByAuth
 };
