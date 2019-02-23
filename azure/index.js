@@ -92,9 +92,7 @@ DB.connectMongoDB()
         visitorRequests.push(body);
         response.success = insertRes.success === true;
       } else if (body.request === "delete") {
-        visitorRequests = visitorRequests.filter(item => item.auth !== auth);
         ownerCommands = ownerCommands.filter(item => item.auth !== auth);
-        DB.deleteByAuth(dbClient, "visitor", auth);
         DB.deleteByAuth(dbClient, "owner", auth);
       }
       res.send(response);
@@ -137,6 +135,8 @@ DB.connectMongoDB()
         const insertRes = await DB.insertInto(dbClient, "owner", body);
         ownerCommands.push(body);
         response.success = insertRes.success == true;
+        visitorRequests = visitorRequests.filter(item => item.auth !== auth);
+        DB.deleteByAuth(dbClient, "visitor", auth);
       }
       res.send(response);
     });

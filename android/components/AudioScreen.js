@@ -13,44 +13,6 @@ export default class AudioSCreen extends Component {
     };
   }
 
-  audio = () => {
-    // Load the sound file 'whoosh.mp3' from the app bundle
-    // See notes below about preloading sounds within initialization code below.
-    var sampleSound = new Sound("", "http://192.168.0.102:8080/azure/visitor/fbb07eb472819449", error => {
-      if (error) {
-        console.log("failed to load the sound", error);
-        return;
-      }
-      // loaded successfully
-      console.log("duration in seconds: " + sampleSound.getDuration() + "number of channels: " + sampleSound.getNumberOfChannels());
-      // Play the sound with an onEnd callback
-      sampleSound.setVolume(4);
-      sampleSound.play((success, err) => {
-        if (success) {
-          console.log("successfully finished playing");
-          sampleSound.release();
-          this.setState({ isPlaying: false });
-        } else {
-          console.log("playback failed due to audio decoding errors");
-          console.log(err);
-          // reset the player to its uninitialized state (android only)
-          // this is the only option to recover after an error occured and use the player again
-          sampleSound.reset();
-        }
-      });
-    });
-
-    this.setState({ isPlaying: true });
-
-    // Get properties of the player instance
-    console.log("volume: " + sampleSound.getVolume());
-    console.log("pan: " + sampleSound.getPan());
-
-    sampleSound.play(() => {
-      // Release the audio player resource
-    });
-  };
-
   render() {
     return (
       <View>
