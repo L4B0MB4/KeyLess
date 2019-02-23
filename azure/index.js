@@ -6,6 +6,7 @@ const port = process.env.PORT || 8080;
 
 const express = require("express");
 const app = express();
+const fileUpload = require("express-fileupload");
 app.use(require("body-parser").json());
 const DB = require("./database.js");
 let dbClient = null;
@@ -20,7 +21,11 @@ function createId() {
     return v.toString(16);
   });
 }
-
+app.use(
+  fileUpload({
+    limits: { fileSize: 50 * 1024 * 1024 }
+  })
+);
 DB.connectMongoDB()
   .then(async function(client) {
     console.log("DB connected");
@@ -89,6 +94,17 @@ DB.connectMongoDB()
         DB.deleteByAuth(dbClient, "owner", auth);
       }
       res.send(response);
+    });
+
+    app.post("/azure/visitor/file", async (req, res) => {
+      if (Object.keys(req.files).length == 0) {
+        return res.send({ success: false, info: "no files uploaded" });
+      }
+      let sampleFile = req.files.beep;
+      sampleFile.mv("./upload/" + req.query.auth + ".wav", function(err) {
+        if (err) return res.send(err);
+        res.send({ success: true });
+      });
     });
 
     app.get("/azure/owner", (req, res) => {

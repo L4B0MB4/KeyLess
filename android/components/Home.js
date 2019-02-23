@@ -29,7 +29,7 @@ export default class Home extends Component {
         })
       });
       let responseJson = await response.json();
-      console.log(responseJson);
+      this.setState({ registered: true });
     } catch (ex) {
       console.log("ERROR: " + ex);
     }
@@ -85,7 +85,7 @@ export default class Home extends Component {
             {"\n"}
           </Text>
         </TouchableOpacity>
-        <Button onPress={this.newPhone} title="First time using this app" />
+        {this.state.registered ? null : <Button onPress={this.newPhone} title="First time using this app" />}
       </View>
     );
   }

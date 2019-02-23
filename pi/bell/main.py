@@ -17,12 +17,13 @@ startServer()
 
 '''
 
-auth = '811D626D-6D25-464C-9501-57592983F0B8'
+auth = 'fbb07eb472819449'
 device = 'ab5718aa-80af-4d77-a640-e3a5a5eb7c27'
 
 
 def registerDevice():
-    payload = {'request': 'register', 'device': 'bell'}
+    payload = {'request': 'register',
+               'device': 'bell', 'auth': auth}
     headers = {'content-type': 'application/json'}
     r = requests.post("http://192.168.0.102:8080/azure/device",
                       data=json.dumps(payload), headers=headers)
@@ -35,6 +36,10 @@ def callOpenDoor():
     r = requests.post("http://192.168.0.102:8080/azure/visitor?auth="+auth,
                       data=json.dumps(payload), headers=headers)
     print(r.json())
+    files = {'beep': open('beep.wav', 'rb')}
+    r = requests.post(
+        "http://192.168.0.102:8080/azure/visitor/file?auth="+auth, files=files)
+    print(r.text)
 
 
 while True:
