@@ -32,3 +32,4 @@
 *.app
 
 azure/node_modules
+*/__pycache__
