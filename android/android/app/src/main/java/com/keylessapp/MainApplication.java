@@ -3,6 +3,7 @@ package com.keylessapp;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.jamesisaac.rnbackgroundtask.BackgroundTaskPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.mackentoch.beaconsandroid.BeaconsAndroidPackage;
 import com.artirigo.kontaktio.KontaktPackage;
@@ -25,13 +26,8 @@ public class MainApplication extends Application implements ReactApplication {
 
     @Override
     protected List<ReactPackage> getPackages() {
-      return Arrays.<ReactPackage>asList(
-          new MainReactPackage(),
-            new RNDeviceInfo(),
-            new BeaconsAndroidPackage(),
-            new KontaktPackage(),
-            new RNSoundPackage()
-      );
+      return Arrays.<ReactPackage>asList(new MainReactPackage(), new BackgroundTaskPackage(), new RNDeviceInfo(),
+          new BeaconsAndroidPackage(), new KontaktPackage(), new RNSoundPackage());
     }
 
     @Override
@@ -49,5 +45,6 @@ public class MainApplication extends Application implements ReactApplication {
   public void onCreate() {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
+    BackgroundTaskPackage.useContext(this);
   }
 }

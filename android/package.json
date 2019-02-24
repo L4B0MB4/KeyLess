@@ -9,6 +9,7 @@
   "dependencies": {
     "react": "16.6.0",
     "react-native": "0.57.4",
+    "react-native-background-task": "^0.2.1",
     "react-native-beacons-manager": "^1.0.7",
     "react-native-device-info": "^0.26.4",
     "react-native-kontaktio": "^2.1.0",

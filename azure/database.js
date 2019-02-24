@@ -12,15 +12,6 @@ connectMongoDB = () => {
   });
 };
 
-checkAuth = (client, auth, device) => {
-  return new Promise(async mainRes => {
-    var db = client.db(DATABASE);
-    var collection = db.collection("device");
-    const res = await collection.findOne({ auth, device });
-    mainRes(res);
-  });
-};
-
 insertInto = (client, collectionName, data) => {
   return new Promise(function(mainRes, mainRej) {
     var db = client.db(DATABASE);
@@ -45,6 +36,13 @@ deleteByAuth = (client, collectionName, auth) => {
   });
 };
 
+getByAuth = async (client, collectionName, auth) => {
+  const db = client.db(DATABASE);
+  let collection = db.collection(collectionName);
+  const arr = await collection.find({ auth: auth }).toArray();
+  return arr;
+};
+
 loadCommandsAndRequests = async (client, owner, visitor) => {
   const db = client.db(DATABASE);
   let collection = db.collection("owner");
@@ -57,7 +55,7 @@ loadCommandsAndRequests = async (client, owner, visitor) => {
 module.exports = {
   connectMongoDB,
   insertInto,
-  checkAuth,
   loadCommandsAndRequests,
-  deleteByAuth
+  deleteByAuth,
+  getByAuth
 };

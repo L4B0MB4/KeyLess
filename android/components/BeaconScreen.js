@@ -1,6 +1,8 @@
 import React, { Component } from "react";
-import { Text, View, StyleSheet, Picker } from "react-native";
+import { Text, View, StyleSheet, Picker, Button } from "react-native";
 import { startBeaconScanning } from "./Beacon";
+import DeviceInfo from "react-native-device-info";
+const IP = "192.168.0.102:8080";
 
 export default class Beacon extends Component {
   constructor(props) {
@@ -15,11 +17,11 @@ export default class Beacon extends Component {
 
   openDoorOwner() {
     try {
-      fetch("https://keyless.azurewebsites.net/azure/owner?auth=123", {
+      fetch("http://" + IP + "/azure/owner?auth=" + DeviceInfo.getUniqueID(), {
         method: "POST",
         body: JSON.stringify({
           request: "open-door",
-          sender: "android",
+          sender: "beacon",
           beacon: "beacon-adress"
         })
       });
@@ -70,6 +72,30 @@ export default class Beacon extends Component {
     });
   };
 
+  registerBeacon = async address => {
+    try {
+      const res = await fetch("http://" + IP + "/azure/device", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          request: "register",
+          device: "beacon",
+          beacon: address,
+          auth: DeviceInfo.getUniqueID()
+        })
+      });
+      const resjson = await res.json();
+      if (resjson.success === true) {
+        this.setState({ registeredDevice: true });
+      }
+    } catch (ex) {
+      console.log("ERROR: " + ex);
+    }
+  };
+
   _isIdenticalBeacon = (b1, b2) => b1.identifier === b2.identifier && b1.uuid === b2.uuid && b1.major === b2.major && b1.minor === b2.minor;
 
   _isIdenticalEddystone = (b1, b2) => b1.identifier === b2.identifier && b1.name === b2.name && b1.namespace === b2.namespace && b1.instanceId === b2.instanceId;
@@ -80,7 +106,7 @@ export default class Beacon extends Component {
         <Picker onValueChange={itemValue => this.setState({ selected_beacon: itemValue })} selectedValue={this.state.selected_beacon}>
           {this.state.beacon_list.map(
             (beacon, ind) => (
-              <Picker.Item label={beacon.name || "No name"} key={beacon.address} value={(beacon.name || "No name") + beacon.address} />
+              <Picker.Item label={beacon.name || "No name"} key={beacon.address} value={beacon.address} />
             ),
             this
           )}
@@ -102,11 +128,13 @@ export default class Beacon extends Component {
   };
 
   render() {
-    const { beacon_list } = this.state;
+    const { beacon_list, registeredDevice, selected_beacon } = this.state;
     return (
       <View style={styles.container}>
         <Text style={styles.header}>Smarte Haustüröffnung</Text>
         {beacon_list.length ? this._renderBeacons() : this._renderEmpty()}
+        {selected_beacon ? <Button title="Register" onPress={() => this.registerBeacon(selected_beacon)} /> : null}
+        {registeredDevice ? <Text>You registered your Beacon</Text> : null}
       </View>
     );
   }

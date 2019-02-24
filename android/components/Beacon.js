@@ -18,22 +18,22 @@ export async function startBeaconScanning(eddystoneAppeared, eddystoneDisappeare
 export function initializeBeaconDetectors(eddystoneDidAppear, eddystoneDidDisappear, beaconDidAppear, beaconDidDisappear) {
   DeviceEventEmitter.addListener("eddystoneDidAppear", ({ eddystone, namespace }) => {
     console.log("eddystoneDidAppear", eddystone, namespace);
-    eddystoneDidAppear(eddystone);
+    if (eddystoneDidAppear) eddystoneDidAppear(eddystone);
   });
 
   DeviceEventEmitter.addListener("eddystoneDidDisappear", ({ eddystone, namespace }) => {
     console.log("eddystoneDidDisappear", eddystone, namespace);
-    eddystoneDidDisappear(eddystone);
+    if (eddystoneDidDisappear) eddystoneDidDisappear(eddystone);
   });
 
   DeviceEventEmitter.addListener("beaconDidAppear", ({ beacon, region }) => {
-    console.log("beaconDidAppear", beacon, region);
-    beaconDidAppear(beacon);
+    //console.log("beaconDidAppear", beacon, region);
+    if (beaconDidAppear) beaconDidAppear(beacon);
   });
 
   DeviceEventEmitter.addListener("beaconDidDisappear", ({ beacon, region }) => {
-    console.log("beaconDidDisappear", beacon, region);
-    beaconDidDisappear(beacon);
+    //console.log("beaconDidDisappear", beacon, region);
+    if (beaconDidDisappear) beaconDidDisappear(beacon);
   });
 
   DeviceEventEmitter.addListener("namespaceDidEnter", ({ namespace }) => {});

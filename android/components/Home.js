@@ -4,12 +4,41 @@ import { Actions } from "react-native-router-flux";
 import { startBeaconScanning } from "./Beacon";
 import DeviceInfo from "react-native-device-info";
 import Sound from "react-native-sound";
+import BackgroundTask from "react-native-background-task";
 const IP = "192.168.0.102:8080";
+let OPENDOORONBEACON = true;
+
+BackgroundTask.define(() => {
+  console.log("Hello from a background task");
+  if (OPENDOORONBEACON) startBeaconScanning(onBeaconScan, null, onBeaconScan);
+  BackgroundTask.finish();
+});
+
+const onBeaconScan = async beacon => {
+  try {
+    let response = await fetch("http://" + IP + "/azure/owner?auth=" + DeviceInfo.getUniqueID(), {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        command: "open-door",
+        for: beacon.address
+      })
+    });
+    let responseJson = await response.json();
+    console.log(responseJson);
+  } catch (ex) {
+    console.log("ERROR: " + ex);
+  }
+};
 
 export default class Home extends Component {
   constructor(props) {
     super(props);
     this.state = { requests: [] };
+    startBeaconScanning(onBeaconScan, null, onBeaconScan);
   }
   auth = DeviceInfo.getUniqueID();
   interValSet = false;
@@ -49,11 +78,10 @@ export default class Home extends Component {
         },
         body: JSON.stringify({
           command: "open-door",
-          for: "beacon-adress-placeholder"
+          for: "all"
         })
       });
       let responseJson = await response.json();
-      console.log(responseJson);
     } catch (ex) {
       console.log("ERROR: " + ex);
     }
@@ -63,7 +91,6 @@ export default class Home extends Component {
     try {
       let response = await fetch("http://" + IP + "/azure/owner?auth=" + this.auth);
       let requests = await response.json();
-      console.log(requests);
       if (requests.success == true || requests.success === false) {
         return this.setState({ requests: null });
       }
@@ -82,8 +109,8 @@ export default class Home extends Component {
       this.getRequests();
       setInterval(this.getRequests, 1000);
     }
+    BackgroundTask.schedule();
   };
-
   audio = () => {
     // Load the sound file 'whoosh.mp3' from the app bundle
     // See notes below about preloading sounds within initialization code below.

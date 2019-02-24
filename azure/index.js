@@ -60,13 +60,10 @@ DB.connectMongoDB()
 
     authenticate = async (req, res, next) => {
       if (req.query.auth) {
-        const res = DB.checkAuth(client, req.query.auth);
-        if (res) {
-          return next();
-        }
+        return next();
       }
-      res.send("Not authenticated");
-      next("Not authenticated");
+      res.send({ success: false, info: "Not authenticated" });
+      return;
     };
 
     /*
@@ -128,10 +125,15 @@ DB.connectMongoDB()
     app.post("/azure/owner", async (req, res) => {
       const body = req.body;
       const response = { success: false };
-      console.log(body.command === "open-door");
-      console.log(body.command);
+      const { auth } = req.query;
       if (body.command === "open-door") {
-        body.auth = req.query.auth;
+        if (body.for && body.for !== "all") {
+          let arr = await DB.getByAuth(dbClient, "devices", auth);
+          console.log(body.for);
+          arr = arr.filter(item => item.beacon === body.for);
+          if (arr.length == 0) return res.send({ success: false });
+        }
+        body.auth = auth;
         const insertRes = await DB.insertInto(dbClient, "owner", body);
         ownerCommands.push(body);
         response.success = insertRes.success == true;
@@ -143,7 +145,8 @@ DB.connectMongoDB()
 
     app.get("/azure/visitor", (req, res) => {
       if (ownerCommands.length > 0) {
-        const foundCommands = ownerCommands.find(item => item.auth == req.query.auth);
+        const foundCommands = ownerCommands.filter(item => item.auth == req.query.auth);
+
         res.send(foundCommands);
       } else {
         res.send({ success: false });
