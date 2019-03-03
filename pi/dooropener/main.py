@@ -1,11 +1,13 @@
 import time
 import json
 import requests
+import RPi.GPIO as io
 
 # getID
 
 auth = 'fbb07eb472819449'
 beacon = 'E3:B4:7C:66:96:5B'
+pin = 21
 
 
 def getAllOrders():
@@ -25,8 +27,15 @@ def getAllOrders():
         return False
 
 
+def openDoor():
+    io.output(pin, 1)
+    time.sleep(5)
+    io.output(pin, 0)
+
+
+io.setmode(io.BCM)
 while True:
     if getAllOrders() is True:
-        # openDoor
+        openDoor()
         print("Open Door")
     time.sleep(1)
