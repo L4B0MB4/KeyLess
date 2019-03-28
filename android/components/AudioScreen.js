@@ -4,7 +4,7 @@ import { Actions } from "react-native-router-flux";
 // Import the react-native-sound module
 import Sound from "react-native-sound";
 
-export default class AudioSCreen extends Component {
+export default class AudioScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
