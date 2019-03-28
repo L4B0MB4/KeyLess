@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { Text, View, StyleSheet, Picker, Button } from "react-native";
+import { TouchableOpacity, Text, View, StyleSheet, Picker, Button } from "react-native";
 import { startBeaconScanning } from "./Beacon";
+import { Actions } from "react-native-router-flux";
 import DeviceInfo from "react-native-device-info";
 const IP = "192.168.0.102:8080";
 
@@ -14,6 +15,10 @@ export default class Beacon extends Component {
 
     startBeaconScanning(this.eddystoneAppeared, this.eddystoneDisappeared, this.beaconAppeared, this.beaconDisappeared);
   }
+
+  goTo = route => {
+    Actions[route]();
+  };
 
   openDoorOwner() {
     try {
@@ -130,28 +135,66 @@ export default class Beacon extends Component {
   render() {
     const { beacon_list, registeredDevice, selected_beacon } = this.state;
     return (
-      <View style={styles.container}>
-        <Text style={styles.header}>Smarte Haustüröffnung</Text>
-        {beacon_list.length ? this._renderBeacons() : this._renderEmpty()}
-        {selected_beacon ? <Button title="Register" onPress={() => this.registerBeacon(selected_beacon)} /> : null}
-        {registeredDevice ? <Text>You registered your Beacon</Text> : null}
+      <View style={styles.maincontainer}>
+        <View style={styles.element}>
+          {beacon_list.length ? this._renderBeacons() : this._renderEmpty()}
+          {selected_beacon ? <Button title="Register" onPress={() => this.registerBeacon(selected_beacon)} /> : null}
+          {registeredDevice ? <Text>You registered your Beacon</Text> : null}
+        </View>
+        <View style={styles.menu}>
+          <View style={styles.menuele}>
+            <TouchableOpacity onPress={() => this.goTo("home")}>
+              <Text style={styles.text}>Home</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.menueleactive}>
+            <TouchableOpacity onPress={() => this.goTo("beacons")}>
+              <Text style={styles.text}>Beacons</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.menuele}>
+            <TouchableOpacity onPress={() => this.goTo("audio")}>
+              <Text style={styles.text}>Audio</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.menuele}>
+            <TouchableOpacity onPress={() => this.goTo("requests")}>
+              <Text style={styles.text}>Requests</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
+  maincontainer: {
     flex: 1,
-    alignItems: "center",
-    backgroundColor: "#F5FCFF"
+    backgroundColor: "#F5FCFF",
+    justifyContent: 'center',
+    flexDirection: 'column',
   },
-  header: {
-    fontSize: 25,
-    margin: 20
+  element: {
+    margin: 20,
+  },
+  menu: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    justifyContent: 'space-evenly',
+  },
+  menuele: {
+    backgroundColor: '#CAE1FF',
+    borderColor: 'black',
+    margin: 10,
+  },
+  menueleactive: {
+    backgroundColor: '#1E90FF',
+    borderColor: 'black',
+    margin: 10,
   },
   text: {
     fontSize: 20,
-    margin: 10
   }
 });
