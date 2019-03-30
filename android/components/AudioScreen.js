@@ -55,8 +55,9 @@ const styles = StyleSheet.create({
   maincontainer: {
     flex: 1,
     backgroundColor: "#F5FCFF",
-    justifyContent: 'center',
     flexDirection: 'column',
+    justifyContent: 'center',
+    paddingTop: 200,
   },
   element: {
     margin: 20,
@@ -73,7 +74,7 @@ const styles = StyleSheet.create({
     borderLeftWidth: 0.5,
     borderRightWidth: 0.5,
     width: '25%',
-    height: '11.5%',
+    height: '20%',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -83,7 +84,7 @@ const styles = StyleSheet.create({
     borderLeftWidth: 0.5,
     borderRightWidth: 0.5,
     width: '25%',
-    height: '11.5%',
+    height: '20%',
     justifyContent: 'center',
     alignItems: 'center',
   },
