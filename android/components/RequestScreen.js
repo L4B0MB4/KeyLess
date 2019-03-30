@@ -155,15 +155,30 @@ const styles = StyleSheet.create({
   },
   menuele: {
     backgroundColor: '#CAE1FF',
-    borderColor: 'black',
-    margin: 10,
+    borderTopWidth: 1,
+    borderLeftWidth: 0.5,
+    borderRightWidth: 0.5,
+    width: '25%',
+    height: '11.5%',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   menueleactive: {
     backgroundColor: '#1E90FF',
-    borderColor: 'black',
-    margin: 10,
+    borderTopWidth: 1,
+    borderLeftWidth: 0.5,
+    borderRightWidth: 0.5,
+    width: '25%',
+    height: '11.5%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  header: {
+    fontSize: 25,
+    margin: 20
   },
   text: {
     fontSize: 20,
   }
 });
+
