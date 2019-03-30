@@ -146,52 +146,92 @@ export default class Home extends Component {
   render() {
     const { requests } = this.state;
     return (
-      <View style={styles.container}>
+      <View style={styles.maincontainer}>
         <Text style={styles.header}>Smarte Haustüröffnung!</Text>
-        <Text>Your ID: {DeviceInfo.getUniqueID()}. Everything should be registered to it</Text>
-        {requests
-          ? requests.map(item => (
+        <View style={styles.element}>
+          <Text style={styles.text}>Mithilfe dieser App kannst du deine Beacons verwalten,
+             dir die Audios deines Besuchs anhören und 
+            dir die Anfragen deines Besuchs anschauen.
+          </Text>
+        </View>
+        <View style={styles.element}>
+          <Text style={styles.text}>Deine ID: {DeviceInfo.getUniqueID()}{"\n"}Alles ist auf diese ID registriert.</Text>
+          {requests
+            ? requests.map(item => (
               <React.Fragment key={JSON.stringify(item)}>
                 <Button onPress={this.openDoorOwner} title={new Date(item.db_timestamp).toLocaleTimeString() + " Uhr. Öffne deinem Besucher die Tür"} />
                 <Button title="Play" onPress={this.audio} />
               </React.Fragment>
             ))
-          : null}
-        <TouchableOpacity onPress={() => this.goTo("beacons")}>
-          <Text>
-            Go To Beacon Screen!!!
-            {"\n"}
-            {"\n"}
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => this.goTo("audio")}>
-          <Text>
-            Go To Audio Screen!!!
-            {"\n"}
-            {"\n"}
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => this.goTo("requests")}>
-          <Text>
-            Go To Requests Screen!!!{"\n"}
-            {"\n"}
-            {"\n"}
-            {"\n"}
-            {"\n"}
-            {"\n"}
-          </Text>
-        </TouchableOpacity>
-        {this.state.registered ? null : <Button onPress={this.newPhone} title="First time using this app" />}
-      </View>
+            : null}
+        </View>
+        <View style={styles.element}>
+          <Text style={styles.text}>Erste Nutzung?</Text>
+          {this.state.registered ? null : <Button onPress={this.newPhone} title="Smartphone registrieren" />}
+        </View>
+      
+        <View style={styles.menu}>
+          <View style={styles.menueleactive}>
+            <TouchableOpacity onPress={() => this.goTo("home")}>
+              <Text style={styles.text}>Home</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.menuele}>
+            <TouchableOpacity onPress={() => this.goTo("beacons")}>
+              <Text style={styles.text}>Beacons</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.menuele}>
+            <TouchableOpacity onPress={() => this.goTo("audio")}>
+              <Text style={styles.text}>Audio</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.menuele}>
+            <TouchableOpacity onPress={() => this.goTo("requests")}>
+              <Text style={styles.text}>Requests</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>    
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
+  maincontainer: {
     flex: 1,
-    alignItems: "center",
-    backgroundColor: "#F5FCFF"
+    backgroundColor: "#F5FCFF",
+    justifyContent: 'center',
+    flexDirection: 'column',
+  },
+  element: {
+    margin: 20,
+  },
+  menu: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    justifyContent: 'space-evenly',
+  },
+  menuele: {
+    backgroundColor: '#CAE1FF',
+    borderTopWidth: 1,
+    borderLeftWidth: 0.5,
+    borderRightWidth: 0.5,
+    width: '25%',
+    height: '40%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  menueleactive: {
+    backgroundColor: '#1E90FF',
+    borderTopWidth: 1,
+    borderLeftWidth: 0.5,
+    borderRightWidth: 0.5,
+    width: '25%',
+    height: '40%',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   header: {
     fontSize: 25,
@@ -199,6 +239,5 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 20,
-    margin: 10
   }
 });

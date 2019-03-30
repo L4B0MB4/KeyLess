@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { TouchableOpacity, Text, View, Button, Picker } from "react-native";
+import { TouchableOpacity, Text, View, Button, Picker, StyleSheet } from "react-native";
 import DeviceInfo from "react-native-device-info";
+import { Actions } from "react-native-router-flux";
 const IP = "192.168.0.102:8080";
 
 export default class RequestScreen extends Component {
@@ -11,6 +12,10 @@ export default class RequestScreen extends Component {
 
   auth = DeviceInfo.getUniqueID();
   interValSet = false;
+
+  goTo = route => {
+    Actions[route]();
+  };
 
   openDoorOwner = async () => {
     try {
@@ -60,15 +65,39 @@ export default class RequestScreen extends Component {
   render() {
     const { requests } = this.state;
     return (
-      <View>
-        {requests
-          ? requests.map(item => (
-              <React.Fragment key={JSON.stringify(item)}>
-                <Button onPress={this.openDoorOwner} title={new Date(item.db_timestamp).toLocaleTimeString() + " Uhr. Öffne deinem Besucher die Tür"} />
-                <Button title="Play" onPress={this.audio} />
-              </React.Fragment>
-            ))
-          : null}
+      <View style={styles.maincontainer}>
+        <View style={styles.element}>
+          {requests
+            ? requests.map(item => (
+                <React.Fragment key={JSON.stringify(item)}>
+                  <Button onPress={this.openDoorOwner} title={new Date(item.db_timestamp).toLocaleTimeString() + " Uhr. Öffne deinem Besucher die Tür"} />
+                  <Button title="Play" onPress={this.audio} />
+                </React.Fragment>
+              ))
+            : null}
+          </View>
+          <View style={styles.menu}>
+          <View style={styles.menuele}>
+            <TouchableOpacity onPress={() => this.goTo("home")}>
+              <Text style={styles.text}>Home</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.menuele}>
+            <TouchableOpacity onPress={() => this.goTo("beacons")}>
+              <Text style={styles.text}>Beacons</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.menuele}>
+            <TouchableOpacity onPress={() => this.goTo("audio")}>
+              <Text style={styles.text}>Audio</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.menueleactive}>
+            <TouchableOpacity onPress={() => this.goTo("requests")}>
+              <Text style={styles.text}>Requests</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
     );
   }
@@ -106,3 +135,50 @@ export default class RequestScreen extends Component {
     });
   };
 }
+
+
+const styles = StyleSheet.create({
+  maincontainer: {
+    flex: 1,
+    backgroundColor: "#F5FCFF",
+    justifyContent: 'center',
+    flexDirection: 'column',
+  },
+  element: {
+    margin: 20,
+  },
+  menu: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    justifyContent: 'space-evenly',
+  },
+  menuele: {
+    backgroundColor: '#CAE1FF',
+    borderTopWidth: 1,
+    borderLeftWidth: 0.5,
+    borderRightWidth: 0.5,
+    width: '25%',
+    height: '11.5%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  menueleactive: {
+    backgroundColor: '#1E90FF',
+    borderTopWidth: 1,
+    borderLeftWidth: 0.5,
+    borderRightWidth: 0.5,
+    width: '25%',
+    height: '11.5%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  header: {
+    fontSize: 25,
+    margin: 20
+  },
+  text: {
+    fontSize: 20,
+  }
+});
+
